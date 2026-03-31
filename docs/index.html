@@ -1,278 +1,974 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prometheus AI</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0b1220;--sf:#111a2e;--sf2:#19253f;--bd:#1e2d4a;--am:#f59e0b;--glow:rgba(245,158,11,.12);--tx:#e8eaf0;--mu:#8492a6;--gn:#10b981;--rd:#ef4444}
-html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Manrope',sans-serif;font-size:15px;line-height:1.6;overflow:hidden}
-#app{display:flex;height:100vh}
-aside{width:220px;background:var(--sf);border-right:1px solid var(--bd);display:flex;flex-direction:column;flex-shrink:0}
-.logo{display:flex;align-items:center;gap:10px;padding:18px 16px 14px;border-bottom:1px solid var(--bd)}
-.logo-i{width:34px;height:34px;background:linear-gradient(135deg,#f59e0b,#b8760a);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#000;font-family:'Bricolage Grotesque',sans-serif;flex-shrink:0}
-.logo-n{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px}
-.logo-n b{color:var(--am)}
-.logo-s{font-size:10px;color:var(--mu);letter-spacing:.05em}
-nav{flex:1;padding:10px 8px;overflow-y:auto}
-.ns{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--mu);padding:10px 10px 4px}
-.nb{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:13.5px;font-weight:500;color:var(--mu);border:1px solid transparent;background:none;width:100%;text-align:left;font-family:'Manrope',sans-serif;transition:all .15s}
-.nb:hover{background:var(--sf2);color:var(--tx)}
-.nb.on{background:var(--glow);color:var(--am);border-color:rgba(245,158,11,.2)}
-.ni{font-size:15px;width:20px;text-align:center;flex-shrink:0}
-.sf{padding:12px 14px;border-top:1px solid var(--bd)}
-.ob{display:flex;align-items:center;gap:7px;background:var(--glow);border:1px solid rgba(245,158,11,.2);border-radius:7px;padding:7px 11px;color:var(--am);font-size:12px;font-weight:600}
-.dot{width:7px;height:7px;background:var(--am);border-radius:50%;flex-shrink:0;animation:pl 2s infinite}
-@keyframes pl{0%,100%{opacity:1}50%{opacity:.25}}
-#main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
-.tb{display:flex;align-items:center;gap:10px;padding:13px 22px;border-bottom:1px solid var(--bd);background:var(--sf);flex-shrink:0}
-.tb-t{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px}
-.badge{margin-left:auto;background:var(--glow);border:1px solid rgba(245,158,11,.3);color:var(--am);font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:20px}
-.page{display:none;flex:1;overflow-y:auto;padding:22px;min-height:0}
-.page.on{display:block}
-.page::-webkit-scrollbar{width:4px}
-.page::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
-#p-chat{padding:0}
-#p-chat.on{display:flex;flex-direction:column}
-.sr{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
-.sc{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:16px 18px}
-.sl{font-size:11px;color:var(--mu);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
-.sv{font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:700}
-.sv.am{color:var(--am)}.sv.gn{color:var(--gn)}
-.ss{font-size:11.5px;color:var(--mu);margin-top:2px}
-.ht{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;margin-bottom:12px}
-.qr{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
-.qb{display:flex;align-items:center;gap:7px;background:var(--sf);border:1px solid var(--bd);color:var(--tx);font-family:'Manrope',sans-serif;font-size:13px;padding:9px 14px;border-radius:9px;cursor:pointer;font-weight:500;transition:all .15s}
-.qb:hover{border-color:var(--am);background:var(--glow);color:var(--am)}
-.tips{display:flex;flex-direction:column;gap:10px}
-.tip{background:var(--sf);border:1px solid var(--bd);border-left:3px solid var(--am);border-radius:10px;padding:12px 16px;font-size:13.5px;line-height:1.65}
-.th{color:var(--am);font-weight:700;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-.csg{display:flex;gap:7px;padding:12px 22px 0;flex-wrap:wrap;flex-shrink:0}
-.sb{background:var(--sf2);border:1px solid var(--bd);color:var(--mu);font-size:12px;padding:5px 12px;border-radius:20px;cursor:pointer;font-family:'Manrope',sans-serif;transition:all .15s}
-.sb:hover{border-color:var(--am);color:var(--am);background:var(--glow)}
-.ca{flex:1;overflow-y:auto;padding:18px 22px;display:flex;flex-direction:column;gap:14px}
-.ca::-webkit-scrollbar{width:4px}
-.ca::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
-.msg{display:flex;gap:9px;animation:fu .3s ease}
-@keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
-.msg.u{flex-direction:row-reverse}
-.msg.u .bub{background:#1a2d50;border:1px solid #1e3a6e;border-radius:18px 18px 4px 18px;max-width:70%;padding:10px 15px;font-size:14px}
-.msg.o{align-items:flex-start}
-.av{width:31px;height:31px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#b8760a);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#000;flex-shrink:0;margin-top:2px;font-family:'Bricolage Grotesque',sans-serif}
-.msg.o .bub{background:#141f35;border:1px solid var(--bd);border-radius:4px 18px 18px 18px;padding:13px 16px;font-size:13.5px;line-height:1.75;max-width:calc(100% - 42px);white-space:pre-wrap}
-.td{display:inline-flex;gap:4px;align-items:center;padding:4px 2px}
-.td span{width:7px;height:7px;border-radius:50%;background:var(--am);animation:tp 1.2s infinite ease-in-out}
-.td span:nth-child(2){animation-delay:.2s}
-.td span:nth-child(3){animation-delay:.4s}
-@keyframes tp{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
-.cr{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
-.chip{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--am);font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px}
-.cf{display:flex;gap:9px;padding:12px 22px 16px;border-top:1px solid var(--bd);background:var(--sf);flex-shrink:0}
-.ci{flex:1;background:var(--sf2);border:1px solid var(--bd);color:var(--tx);font-family:'Manrope',sans-serif;font-size:14px;padding:10px 14px;border-radius:9px;resize:none;outline:none;line-height:1.5;max-height:110px;overflow-y:auto;transition:border-color .15s}
-.ci:focus{border-color:var(--am)}
-.ci::placeholder{color:var(--mu)}
-.cbtn{background:var(--am);color:#000;border:none;padding:10px 16px;border-radius:9px;cursor:pointer;font-weight:700;font-size:14px;font-family:'Manrope',sans-serif;align-self:flex-end;transition:background .15s}
-.cbtn:hover{background:#e08d00}
-.cbtn:disabled{opacity:.4;cursor:default}
-.fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:13px}
-.fc{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:17px;cursor:pointer;transition:all .2s}
-.fc:hover{border-color:var(--am);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.ft{display:flex;align-items:center;gap:11px;margin-bottom:9px}
-.fn{font-family:'Bricolage Grotesque',sans-serif;font-size:14.5px;font-weight:700;line-height:1.2}
-.fca{font-size:10.5px;color:var(--am);text-transform:uppercase;letter-spacing:.07em;font-weight:700}
-.fb{font-size:12.5px;color:var(--mu);line-height:1.6;margin-bottom:11px}
-.ftg{display:flex;gap:5px;flex-wrap:wrap}
-.ftg span{background:var(--sf2);border:1px solid var(--bd);color:var(--mu);font-size:10.5px;padding:2px 8px;border-radius:20px}
-.fh{font-size:11px;color:var(--mu);margin-top:8px}
-.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;align-items:center;justify-content:center;padding:20px}
-.mo.on{display:flex}
-.mb{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:26px;max-width:560px;width:100%;max-height:82vh;overflow-y:auto}
-.mb::-webkit-scrollbar{width:4px}
-.mb::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px}
-.mh{display:flex;align-items:flex-start;gap:13px;margin-bottom:16px}
-.mh h2{font-family:'Bricolage Grotesque',sans-serif;font-size:19px;font-weight:700}
-.mcat{font-size:11px;color:var(--am);font-weight:700;text-transform:uppercase;letter-spacing:.07em}
-.mcl{margin-left:auto;background:none;border:none;color:var(--mu);cursor:pointer;font-size:19px;padding:4px;line-height:1}
-.ms{margin-bottom:14px}
-.ms h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--am);font-weight:700;margin-bottom:7px}
-.ms ul{list-style:none;display:flex;flex-direction:column;gap:5px}
-.ms li{font-size:13px;color:var(--mu);padding-left:14px;position:relative;line-height:1.55}
-.ms li:before{content:"+";position:absolute;left:0;color:var(--am);font-size:11px}
-.ms li.w{color:#f87171}
-.ms li.w:before{color:#f87171}
-.mr2{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:20px}
-.mcc{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:13px 15px}
-.mn{font-size:10.5px;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-.mv{font-family:'Bricolage Grotesque',sans-serif;font-size:21px;font-weight:700;color:var(--am)}
-.ms2{font-size:10.5px;color:var(--mu);margin-top:2px}
-.mkc{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.mkt{background:var(--sf);border:1px solid var(--bd);border-radius:11px;overflow:hidden}
-.mth{padding:12px 16px;border-bottom:1px solid var(--bd);font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:700}
-.mkt table{width:100%;border-collapse:collapse}
-.mkt th{padding:9px 16px;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);text-align:left;border-bottom:1px solid var(--bd)}
-.mkt td{padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(30,45,74,.4)}
-.mkt tr:last-child td{border-bottom:none}
-.mkt tr:hover td{background:var(--sf2)}
-.sym{font-weight:700;font-family:'Bricolage Grotesque',sans-serif;font-size:13.5px}
-.up{color:var(--gn);font-weight:700}
-.dn{color:var(--rd);font-weight:700}
-.sn{font-size:11px;color:var(--mu);margin-bottom:14px}
-.svc{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:20px}
-.fgr{margin-bottom:16px}
-.fgr label{font-size:12.5px;font-weight:600;color:var(--mu);margin-bottom:6px;display:block}
-.ti{width:100%;background:var(--sf2);border:1px solid var(--bd);color:var(--tx);font-family:'Manrope',sans-serif;font-size:14px;padding:9px 13px;border-radius:8px;outline:none;transition:border-color .15s}
-.ti:focus{border-color:var(--am)}
-input[type=range]{width:100%;accent-color:var(--am);cursor:pointer;margin-top:4px}
-.rl{display:flex;justify-content:space-between;font-size:10.5px;color:var(--mu);margin-top:3px}
-.clbtn{width:100%;background:var(--am);color:#000;border:none;padding:11px;border-radius:8px;cursor:pointer;font-weight:700;font-size:14.5px;font-family:'Manrope',sans-serif;transition:background .15s;margin-top:6px}
-.clbtn:hover{background:#e08d00}
-.rsc{background:var(--sf2);border:1px solid var(--bd);border-radius:10px;padding:15px 17px;margin-top:14px}
-.rr{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(30,45,74,.5)}
-.rr:last-child{border-bottom:none}
-.rl2{font-size:13px;color:var(--mu)}
-.rv{font-size:14px;font-weight:700;color:var(--am)}
-.ot{background:var(--glow);border:1px solid rgba(245,158,11,.2);border-radius:9px;padding:13px 15px;font-size:13px;color:var(--mu);margin-top:12px;line-height:1.6}
-.ot b{color:var(--am)}
-.stc{display:grid;grid-template-columns:1fr 1.6fr;gap:18px}
-.rb{width:100%;background:var(--sf2);border:1px solid var(--bd);color:var(--mu);padding:12px 15px;border-radius:9px;cursor:pointer;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:500;text-align:left;margin-bottom:8px;transition:all .15s}
-.rb:hover,.rb.on{border-color:var(--am);background:var(--glow);color:var(--am)}
-.rb b{display:block;font-size:14px;margin-bottom:2px}
-.rb span{font-size:11.5px;color:var(--mu)}
-.ab{display:flex;height:13px;border-radius:7px;overflow:hidden;margin:10px 0}
-.as{transition:width .45s ease}
-.al{display:flex;flex-direction:column;gap:8px}
-.alr{display:flex;align-items:center;gap:9px;font-size:13px}
-.ald{width:11px;height:11px;border-radius:3px;flex-shrink:0}
-.acl{display:flex;flex-direction:column;gap:9px;margin-top:14px}
-.ai{background:var(--sf2);border:1px solid var(--bd);border-radius:8px;padding:11px 14px;font-size:13px;line-height:1.55}
-.an{color:var(--am);font-weight:700;margin-right:6px}
-.er{display:flex;gap:18px;font-size:12.5px;color:var(--mu);margin-bottom:14px}
-@media(max-width:768px){aside{display:none}.sr{grid-template-columns:1fr 1fr}.mkc,.svc,.stc{grid-template-columns:1fr}.mr2{grid-template-columns:repeat(2,1fr)}.page{padding:14px}.ca{padding:14px 16px}.cf{padding:10px 14px 14px}.csg{padding:10px 14px 0}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prometheus AI — Financial Intelligence Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root{
+      --bg:#0b1220; --surface:#111a2e; --surface2:#19253f;
+      --border:#1e2d4a; --amber:#f59e0b;
+      --glow:rgba(245,158,11,0.12); --text:#e8eaf0; --muted:#8492a6;
+      --green:#10b981; --red:#ef4444; --sw:220px
+    }
+    html,body{
+      height:100%; background:var(--bg); color:var(--text);
+      font-family:'Manrope',system-ui,sans-serif; font-size:15px; line-height:1.6; overflow:hidden;
+    }
+    #app{display:flex;height:100vh}
+    #sidebar{
+      width:var(--sw);background:var(--surface);border-right:1px solid var(--border);
+      display:flex;flex-direction:column;flex-shrink:0
+    }
+    .logo{display:flex;align-items:center;gap:10px;padding:18px 16px 14px;border-bottom:1px solid var(--border)}
+    .logo-icon{
+      width:34px;height:34px;background:linear-gradient(135deg,#f59e0b,#b8760a);border-radius:8px;
+      display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#000;
+      font-family:'Bricolage Grotesque',sans-serif;flex-shrink:0
+    }
+    .logo-name{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:16px;line-height:1.2}
+    .logo-name em{color:var(--amber);font-style:normal}
+    .logo-sub{font-size:10px;color:var(--muted);letter-spacing:.05em}
+    nav{flex:1;padding:10px 8px;display:flex;flex-direction:column;gap:1px;overflow-y:auto}
+    .nav-section{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);padding:10px 10px 4px}
+    .nav-btn{
+      display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;cursor:pointer;
+      font-size:13.5px;font-weight:500;color:var(--muted);border:1px solid transparent;background:none;
+      width:100%;text-align:left;font-family:'Manrope',sans-serif;transition:all .15s
+    }
+    .nav-btn:hover{background:var(--surface2);color:var(--text)}
+    .nav-btn.active{background:var(--glow);color:var(--amber);border-color:rgba(245,158,11,.2)}
+    .nav-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+    .sidebar-foot{padding:12px 14px;border-top:1px solid var(--border)}
+    .orion-badge{
+      display:flex;align-items:center;gap:7px;background:var(--glow);border:1px solid rgba(245,158,11,.2);
+      border-radius:7px;padding:7px 11px;color:var(--amber);font-size:12px;font-weight:600
+    }
+    .pulse{
+      width:7px;height:7px;background:var(--amber);border-radius:50%;flex-shrink:0;animation:pa 2s infinite
+    }
+    @keyframes pa{0%,100%{opacity:1}50%{opacity:.25}}
+    #main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-height:0}
+    .topbar{
+      display:flex;align-items:center;gap:10px;padding:13px 22px;border-bottom:1px solid var(--border);
+      background:var(--surface);flex-shrink:0
+    }
+    .topbar-title{font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:19px}
+    .demo-badge{
+      margin-left:auto;background:var(--glow);border:1px solid rgba(245,158,11,.3);color:var(--amber);
+      font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:20px
+    }
+    .page{display:none;flex:1;overflow-y:auto;padding:22px;min-height:0}
+    .page.active{display:block}
+    .page::-webkit-scrollbar{width:4px}
+    .page::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+    #page-chat{padding:0}
+    #page-chat.active{display:flex;flex-direction:column}
+    .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
+    .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
+    .stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+    .stat-val{font-family:'Bricolage Grotesque',sans-serif;font-size:26px;font-weight:700}
+    .stat-val.amber{color:var(--amber)}
+    .stat-val.green{color:var(--green)}
+    .stat-sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+    .sec-title{font-family:'Bricolage Grotesque',sans-serif;font-size:16px;font-weight:700;margin-bottom:12px}
+    .qa-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+    .qa-btn{
+      display:flex;align-items:center;gap:7px;background:var(--surface);border:1px solid var(--border);color:var(--text);
+      font-family:'Manrope',sans-serif;font-size:13px;padding:9px 14px;border-radius:9px;cursor:pointer;font-weight:500;transition:all .15s
+    }
+    .qa-btn:hover{border-color:var(--amber);background:var(--glow);color:var(--amber)}
+    .tips{display:flex;flex-direction:column;gap:10px}
+    .tip{
+      background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--amber);
+      border-radius:10px;padding:12px 16px;font-size:13.5px;line-height:1.65
+    }
+    .tip-head{
+      color:var(--amber);font-weight:700;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px
+    }
+    .chat-sugg{display:flex;gap:7px;padding:12px 22px 0;flex-wrap:wrap;flex-shrink:0}
+    .sugg-btn{
+      background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:12px;padding:5px 12px;
+      border-radius:20px;cursor:pointer;font-family:'Manrope',sans-serif;transition:all .15s
+    }
+    .sugg-btn:hover{border-color:var(--amber);color:var(--amber);background:var(--glow)}
+    .chat-area{flex:1;overflow-y:auto;padding:18px 22px;display:flex;flex-direction:column;gap:14px}
+    .chat-area::-webkit-scrollbar{width:4px}
+    .chat-area::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+    .msg{display:flex;gap:9px;animation:fu .3s ease}
+    @keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+    .msg.user{flex-direction:row-reverse}
+    .msg.user .bub{
+      background:#1a2d50;border:1px solid #1e3a6e;border-radius:18px 18px 4px 18px;max-width:70%;padding:10px 15px;font-size:14px
+    }
+    .msg.orion{align-items:flex-start}
+    .av{
+      width:31px;height:31px;border-radius:50%;background:linear-gradient(135deg,#f59e0b,#b8760a);
+      display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#000;
+      flex-shrink:0;margin-top:2px;font-family:'Bricolage Grotesque',sans-serif
+    }
+    .msg.orion .bub{
+      background:#141f35;border:1px solid var(--border);border-radius:4px 18px 18px 18px;
+      padding:13px 16px;font-size:13.5px;line-height:1.75;max-width:calc(100% - 42px);white-space:pre-wrap
+    }
+    .typing-dots{display:inline-flex;gap:4px;align-items:center;padding:4px 2px}
+    .typing-dots span{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:tp 1.2s infinite ease-in-out}
+    .typing-dots span:nth-child(2){animation-delay:.2s}
+    .typing-dots span:nth-child(3){animation-delay:.4s}
+    @keyframes tp{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+    .chip-row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+    .chip{
+      background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--amber);
+      font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px
+    }
+    .chat-foot{
+      display:flex;gap:9px;padding:12px 22px 16px;border-top:1px solid var(--border);
+      background:var(--surface);flex-shrink:0
+    }
+    .chat-input{
+      flex:1;background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'Manrope',sans-serif;
+      font-size:14px;padding:10px 14px;border-radius:9px;resize:none;outline:none;line-height:1.5;max-height:110px;
+      overflow-y:auto;transition:border-color .15s
+    }
+    .chat-input:focus{border-color:var(--amber)}
+    .chat-input::placeholder{color:var(--muted)}
+    .submit-btn{
+      background:var(--amber);color:#000;border:none;padding:10px 16px;border-radius:9px;cursor:pointer;
+      font-weight:700;font-size:14px;font-family:'Manrope',sans-serif;align-self:flex-end;transition:background .15s
+    }
+    .submit-btn:hover{background:#e08d00}
+    .submit-btn:disabled{opacity:.4;cursor:default}
+    .fw-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:13px}
+    .fw-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:17px;cursor:pointer;transition:all .2s}
+    .fw-card:hover{border-color:var(--amber);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
+    .fw-top{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+    .fw-emoji{font-size:25px}
+    .fw-name{font-family:'Bricolage Grotesque',sans-serif;font-size:14.5px;font-weight:700;line-height:1.2}
+    .fw-cat{font-size:10.5px;color:var(--amber);text-transform:uppercase;letter-spacing:.07em;font-weight:700}
+    .fw-bio{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:11px}
+    .fw-tags{display:flex;gap:5px;flex-wrap:wrap}
+    .fw-tag{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-size:10.5px;padding:2px 8px;border-radius:20px}
+    .fw-hor{font-size:11px;color:var(--muted);margin-top:8px}
+    .modal-overlay{
+      display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;
+      align-items:center;justify-content:center;padding:20px
+    }
+    .modal-overlay.open{display:flex}
+    .modal-box{
+      background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:26px;
+      max-width:560px;width:100%;max-height:82vh;overflow-y:auto
+    }
+    .modal-box::-webkit-scrollbar{width:4px}
+    .modal-box::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+    .modal-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:16px}
+    .modal-close-btn{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:19px;padding:4px;line-height:1}
+    .modal-box h2{font-family:'Bricolage Grotesque',sans-serif;font-size:19px;font-weight:700}
+    .modal-cat{font-size:11px;color:var(--amber);font-weight:700;text-transform:uppercase;letter-spacing:.07em}
+    .msec{margin-bottom:14px}
+    .msec h4{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--amber);font-weight:700;margin-bottom:7px}
+    .msec ul{list-style:none;display:flex;flex-direction:column;gap:5px}
+    .msec li{font-size:13px;color:var(--muted);padding-left:14px;position:relative;line-height:1.55}
+    .msec li::before{content:'>';position:absolute;left:0;color:var(--amber);font-size:11px}
+    .msec li.warn{color:#f87171}
+    .msec li.warn::before{color:#f87171}
+    .macro-row{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:20px}
+    .mc-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:13px 15px}
+    .mc-name{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+    .mc-val{font-family:'Bricolage Grotesque',sans-serif;font-size:21px;font-weight:700;color:var(--amber)}
+    .mc-sub{font-size:10.5px;color:var(--muted);margin-top:2px}
+    .market-cols{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .mkt-table{background:var(--surface);border:1px solid var(--border);border-radius:11px;overflow:hidden}
+    .mkt-th{padding:12px 16px;border-bottom:1px solid var(--border);font-family:'Bricolage Grotesque',sans-serif;font-size:14px;font-weight:700}
+    .mkt-table table{width:100%;border-collapse:collapse}
+    .mkt-table th{
+      padding:9px 16px;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);
+      text-align:left;border-bottom:1px solid var(--border)
+    }
+    .mkt-table td{padding:10px 16px;font-size:13px;border-bottom:1px solid rgba(30,45,74,.4)}
+    .mkt-table tr:last-child td{border-bottom:none}
+    .mkt-table tr:hover td{background:var(--surface2)}
+    .sym{font-weight:700;font-family:'Bricolage Grotesque',sans-serif;font-size:13.5px}
+    .price-up{color:var(--green);font-weight:700}
+    .price-dn{color:var(--red);font-weight:700}
+    .stale-note{font-size:11px;color:var(--muted);margin-bottom:14px}
+    .sav-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+    .fg{margin-bottom:16px}
+    .fg label{font-size:12.5px;font-weight:600;color:var(--muted);margin-bottom:6px;display:block}
+    .text-input{
+      width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--text);
+      font-family:'Manrope',sans-serif;font-size:14px;padding:9px 13px;border-radius:8px;outline:none;transition:border-color .15s
+    }
+    .text-input:focus{border-color:var(--amber)}
+    input[type=range]{width:100%;accent-color:var(--amber);cursor:pointer;margin-top:4px}
+    .rl{display:flex;justify-content:space-between;font-size:10.5px;color:var(--muted);margin-top:3px}
+    .calc-btn{
+      width:100%;background:var(--amber);color:#000;border:none;padding:11px;border-radius:8px;cursor:pointer;
+      font-weight:700;font-size:14.5px;font-family:'Manrope',sans-serif;transition:background .15s;margin-top:6px
+    }
+    .calc-btn:hover{background:#e08d00}
+    .res-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:15px 17px;margin-top:14px}
+    .res-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid rgba(30,45,74,.5)}
+    .res-row:last-child{border-bottom:none}
+    .res-lbl{font-size:13px;color:var(--muted)}
+    .res-val{font-size:14px;font-weight:700;color:var(--amber)}
+    .orion-tip{
+      background:var(--glow);border:1px solid rgba(245,158,11,.2);border-radius:9px;padding:13px 15px;
+      font-size:13px;color:var(--muted);margin-top:12px;line-height:1.6
+    }
+    .orion-tip strong{color:var(--amber)}
+    .strat-cols{display:grid;grid-template-columns:1fr 1.6fr;gap:18px}
+    .risk-btn{
+      width:100%;background:var(--surface2);border:1px solid var(--border);color:var(--muted);padding:12px 15px;border-radius:9px;
+      cursor:pointer;font-family:'Manrope',sans-serif;font-size:13.5px;font-weight:500;text-align:left;margin-bottom:8px;transition:all .15s
+    }
+    .risk-btn:hover,.risk-btn.sel{border-color:var(--amber);background:var(--glow);color:var(--amber)}
+    .risk-btn strong{display:block;font-size:14px;margin-bottom:2px}
+    .risk-btn span{font-size:11.5px;color:var(--muted)}
+    .alloc-bar{display:flex;height:13px;border-radius:7px;overflow:hidden;margin:10px 0}
+    .alloc-seg{transition:width .45s ease}
+    .alloc-legend{display:flex;flex-direction:column;gap:8px}
+    .leg-row{display:flex;align-items:center;gap:9px;font-size:13px}
+    .leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
+    .act-list{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+    .act-item{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:11px 14px;font-size:13px;line-height:1.55}
+    .act-num{color:var(--amber);font-weight:700;margin-right:6px}
+    .exp-row{display:flex;gap:18px;font-size:12.5px;color:var(--muted);margin-bottom:14px;flex-wrap:wrap}
+    @media(max-width:768px){
+      #sidebar{display:none}
+      .stat-row{grid-template-columns:1fr 1fr}
+      .market-cols,.sav-cols,.strat-cols{grid-template-columns:1fr}
+      .macro-row{grid-template-columns:repeat(2,1fr)}
+      .page{padding:14px}
+      .chat-area{padding:14px 16px}
+      .chat-foot{padding:10px 14px 14px}
+      .chat-sugg{padding:10px 14px 0}
+    }
+  </style>
 </head>
 <body>
-<div id="app">
-<aside>
-  <div class="logo">
-    <div class="logo-i">P</div>
-    <div>
-      <div class="logo-n">Prometheus <b>/</b></div>
-      <div class="logo-s">ORION ENGINE</div>
-    </div>
-  </div>
-  <nav>
-    <div class="ns">Overview</div>
-    <button class="nb on" data-goto="dashboard"><span class="ni">&#9889;</span>Dashboard</button>
-    <div class="ns">Intelligence</div>
-    <button class="nb" data-goto="chat"><span class="ni">&#128172;</span>Orion Chat</button>
-    <button class="nb" data-goto="library"><span class="ni">&#128218;</span>Framework Library</button>
-    <button class="nb" data-goto="market"><span class="ni">&#128200;</span>Market Data</button>
-    <div class="ns">Planning</div>
-    <button class="nb" data-goto="savings"><span class="ni">&#127919;</span>Savings Planner</button>
-    <button class="nb" data-goto="strategy"><span class="ni">&#129517;</span>Strategy</button>
-  </nav>
-  <div class="sf"><div class="ob"><div class="dot"></div>Orion engine active</div></div>
-</aside>
-<div id="main">
-  <div class="tb">
-    <div class="tb-t" id="tb-t">Dashboard</div>
-    <div class="badge">Public Demo</div>
-  </div>
-  <div id="p-dashboard" class="page on">
-    <div class="sr">
-      <div class="sc"><div class="sl">Frameworks</div><div class="sv am">10</div><div class="ss">Value &middot; Growth &middot; Macro &middot; Passive</div></div>
-      <div class="sc"><div class="sl">Securities Tracked</div><div class="sv gn">28</div><div class="ss">20 stocks &middot; 8 ETFs</div></div>
-      <div class="sc"><div class="sl">Orion Engine</div><div class="sv">Live</div><div class="ss">Step-by-step financial math</div></div>
-    </div>
-    <div class="ht">Quick Actions</div>
-    <div class="qr">
-      <button class="qb" data-chat="What is my DTI if I earn 85000 per year and have 1100 per month in debt payments">Calculate DTI</button>
-      <button class="qb" data-chat="Should I pay off my 18000 loan at 7 percent or invest 500 per month instead">Debt vs Invest</button>
-      <button class="qb" data-chat="FIRE timeline I save 1500 per month on a 90000 income">FIRE Timeline</button>
-      <button class="qb" data-chat="What portfolio allocation should I have at age 31">Portfolio Advice</button>
-      <button class="qb" data-goto="library">Browse Frameworks</button>
-      <button class="qb" data-goto="savings">Savings Goal</button>
-    </div>
-    <div class="ht">Orion Insights</div>
-    <div class="tips">
-      <div class="tip"><div class="th">Rule of 72</div>Divide 72 by your annual return to find how long money takes to double. At 7%, your money doubles in about 10.3 years. At 10%, just 7.2 years. This is why rate of return matters more than most people realise.</div>
-      <div class="tip"><div class="th">Debt-to-Income Ratio</div>DTI is total monthly debt payments divided by gross monthly income. Lenders want below 36%. Below 20% puts you in excellent standing. Above 43%, most mortgage lenders will decline regardless of credit score.</div>
-      <div class="tip"><div class="th">The 4% Withdrawal Rule</div>You can withdraw 4% of your portfolio annually without running out over 30 years. Multiply your annual spending by 25 to get your FIRE number. Spend $48,000/year? You need $1.2M invested.</div>
-      <div class="tip"><div class="th">Tax-Advantaged Account Order</div>Capture the full 401k employer match first. Then HSA if eligible. Then IRA. Then back to 401k. Taxable brokerage last. Every step out of order costs you money.</div>
-    </div>
-  </div>
-  <div id="p-chat" class="page">
-    <div class="csg" id="csg">
-      <button class="sb" data-chat="What is my DTI if I earn 75000 per year with 900 per month in debt payments">DTI calc</button>
-      <button class="sb" data-chat="Pay off 20000 loan at 6 percent or invest 400 per month">Debt vs invest</button>
-      <button class="sb" data-chat="FIRE projection saving 2000 per month on 95000 income">FIRE timeline</button>
-      <button class="sb" data-chat="Portfolio allocation at age 34">Portfolio allocation</button>
-      <button class="sb" data-chat="How much emergency fund if I spend 4500 per month">Emergency fund</button>
-      <button class="sb" data-chat="Compound interest on 15000 at 8 percent">Compound interest</button>
-      <button class="sb" data-chat="Budget breakdown on 6500 per month take home">Budget</button>
-    </div>
-    <div class="ca" id="ca">
-      <div class="msg o"><div class="av">O</div><div class="bub">Hey, I am Orion, Prometheus's financial reasoning engine.
+  <div id="app">
+    <aside id="sidebar">
+      <div class="logo">
+        <div class="logo-icon">P</div>
+        <div>
+          <div class="logo-name">Prometheus <em>/</em></div>
+          <div class="logo-sub">ORION ENGINE</div>
+        </div>
+      </div>
+
+      <nav>
+        <div class="nav-section">Overview</div>
+        <button class="nav-btn active" data-p="dashboard"><span class="nav-icon">&#9889;</span>Dashboard</button>
+
+        <div class="nav-section">Intelligence</div>
+        <button class="nav-btn" data-p="chat"><span class="nav-icon">&#128172;</span>Orion Chat</button>
+        <button class="nav-btn" data-p="library"><span class="nav-icon">&#128218;</span>Framework Library</button>
+        <button class="nav-btn" data-p="market"><span class="nav-icon">&#128200;</span>Market Data</button>
+
+        <div class="nav-section">Planning</div>
+        <button class="nav-btn" data-p="savings"><span class="nav-icon">&#127919;</span>Savings Planner</button>
+        <button class="nav-btn" data-p="strategy"><span class="nav-icon">&#129517;</span>Strategy</button>
+      </nav>
+
+      <div class="sidebar-foot">
+        <div class="orion-badge"><div class="pulse"></div>Orion engine active</div>
+      </div>
+    </aside>
+
+    <div id="main">
+      <div class="topbar">
+        <div id="tb-title" class="topbar-title">Dashboard</div>
+        <div class="demo-badge">Public Demo</div>
+      </div>
+
+      <div id="page-dashboard" class="page active">
+        <div class="stat-row">
+          <div class="stat-card">
+            <div class="stat-lbl">Frameworks</div>
+            <div class="stat-val amber">10</div>
+            <div class="stat-sub">Value · Growth · Macro · Passive</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-lbl">Securities Tracked</div>
+            <div class="stat-val green">28</div>
+            <div class="stat-sub">20 stocks · 8 ETFs</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-lbl">Orion Engine</div>
+            <div class="stat-val">Live</div>
+            <div class="stat-sub">Step-by-step financial math</div>
+          </div>
+        </div>
+
+        <div class="sec-title">Quick Actions</div>
+        <div class="qa-row">
+          <button class="qa-btn" onclick="goToChat('What is my DTI if I earn 85000 per year and have 1100 per month in debt payments?')">Calculate DTI</button>
+          <button class="qa-btn" onclick="goToChat('Should I pay off my 18000 loan at 7% or invest 500 per month instead?')">Debt vs. Invest</button>
+          <button class="qa-btn" onclick="goToChat('FIRE timeline: I save 1500 per month on a 90000 income')">FIRE Timeline</button>
+          <button class="qa-btn" onclick="goToChat('What portfolio allocation should I have at age 31?')">Portfolio Advice</button>
+          <button class="qa-btn" onclick="goTo('library')">Browse Frameworks</button>
+          <button class="qa-btn" onclick="goTo('savings')">Savings Goal</button>
+        </div>
+
+        <div class="sec-title">Orion Insights</div>
+        <div class="tips">
+          <div class="tip"><div class="tip-head">Rule of 72</div>Divide 72 by your annual return to find how long money takes to double. At 7%, your money doubles in ~10.3 years. At 10%, just 7.2 years. This is why rate of return matters more than most people realise.</div>
+          <div class="tip"><div class="tip-head">Debt-to-Income Ratio</div>DTI = total monthly debt payments divided by gross monthly income. Lenders want below 36%. Below 20% puts you in excellent standing. Above 43% and most mortgage lenders will decline you regardless of credit score.</div>
+          <div class="tip"><div class="tip-head">The 4% Withdrawal Rule</div>You can withdraw 4% of your portfolio annually without running out of money over 30 years. Multiply your annual spending by 25 to get your FIRE number. Spend $48,000/year? You need $1.2M invested.</div>
+          <div class="tip"><div class="tip-head">Tax-Advantaged Account Order</div>Always capture the full 401(k) employer match first. Then HSA if eligible. Then IRA. Then back to 401(k). Taxable brokerage last. Every step out of order costs you money.</div>
+        </div>
+      </div>
+
+      <div id="page-chat" class="page">
+        <div class="chat-sugg" id="chat-sugg">
+          <button class="sugg-btn" onclick="fillAndSubmit('What is my DTI if I earn 75000 per year with 900 per month in debt payments?')">DTI calc</button>
+          <button class="sugg-btn" onclick="fillAndSubmit('Pay off 20000 loan at 6.5% or invest 400 per month?')">Debt vs invest</button>
+          <button class="sugg-btn" onclick="fillAndSubmit('FIRE projection: saving 2000 per month on 95000 income')">FIRE timeline</button>
+          <button class="sugg-btn" onclick="fillAndSubmit('Portfolio allocation at age 34')">Portfolio allocation</button>
+          <button class="sugg-btn" onclick="fillAndSubmit('How much should my emergency fund be if I spend 4500 per month?')">Emergency fund</button>
+          <button class="sugg-btn" onclick="fillAndSubmit('Explain compound interest on 15000 at 8 percent')">Compound interest</button>
+          <button class="sugg-btn" onclick="fillAndSubmit('Budget breakdown on 6500 per month take-home')">Budget 50/30/20</button>
+        </div>
+
+        <div class="chat-area" id="chat-area">
+          <div class="msg orion">
+            <div class="av">O</div>
+            <div class="bub">Hey, I am Orion, Prometheus's financial reasoning engine.
 
 Ask me anything financial. I will show my work step-by-step with actual calculations based on your numbers.
 
-Try: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio allocation, compound interest, emergency fund sizing, budget, or net worth.</div></div>
-    </div>
-    <div class="cf">
-      <textarea id="ci" class="ci" placeholder="Ask Orion anything financial. Include your numbers for precise calculations..." rows="1"></textarea>
-      <button class="cbtn" id="cbtn">Send</button>
-    </div>
-  </div>
-  <div id="p-library" class="page"><div class="fg" id="fg"></div></div>
-  <div id="p-market" class="page">
-    <div class="mr2" id="mr2"></div>
-    <div class="ht" style="margin-bottom:6px">Watchlist</div>
-    <p class="sn">Static snapshot. Connect Alpha Vantage or Finnhub keys in the full app for live quotes.</p>
-    <div class="mkc">
-      <div class="mkt"><div class="mth">Stocks</div><table><thead><tr><th>Sym</th><th>Name</th><th>Price</th><th>Chg</th></tr></thead><tbody id="stb"></tbody></table></div>
-      <div class="mkt"><div class="mth">ETFs</div><table><thead><tr><th>Sym</th><th>Name</th><th>Price</th><th>Chg</th></tr></thead><tbody id="etb"></tbody></table></div>
-    </div>
-  </div>
-  <div id="p-savings" class="page">
-    <div class="svc">
-      <div class="card">
-        <div class="ht" style="margin-bottom:16px">Savings Goal Calculator</div>
-        <div class="fgr"><label>Goal name</label><input type="text" class="ti" id="gn" placeholder="Emergency Fund, Down Payment..."></div>
-        <div class="fgr"><label>Target: $<span id="dt">10,000</span></label><input type="range" id="rt" min="1000" max="500000" step="1000" value="10000"><div class="rl"><span>$1K</span><span>$500K</span></div></div>
-        <div class="fgr"><label>Monthly: $<span id="dm">500</span></label><input type="range" id="rm" min="50" max="10000" step="50" value="500"><div class="rl"><span>$50</span><span>$10K</span></div></div>
-        <div class="fgr"><label>Annual return: <span id="dr">7</span>%</label><input type="range" id="rr" min="0" max="15" step="0.5" value="7"><div class="rl"><span>0%</span><span>15%</span></div></div>
-        <div class="fgr"><label>Starting: $<span id="ds">0</span></label><input type="range" id="rs" min="0" max="100000" step="500" value="0"><div class="rl"><span>$0</span><span>$100K</span></div></div>
-        <button class="clbtn" id="calcbtn">Calculate</button>
+Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio allocation, compound interest, emergency fund sizing, budget frameworks, or net worth tracking.</div>
+          </div>
+        </div>
+
+        <div class="chat-foot">
+          <textarea id="chat-input" class="chat-input" placeholder="Ask Orion anything financial. Include your numbers for precise calculations..." rows="1"></textarea>
+          <button class="submit-btn" id="submit-btn" type="button">Send</button>
+        </div>
       </div>
-      <div id="savres"></div>
-    </div>
-  </div>
-  <div id="p-strategy" class="page">
-    <div class="stc">
-      <div class="card">
-        <div class="ht" style="margin-bottom:8px">Risk Profile</div>
-        <p style="font-size:12.5px;color:var(--mu);margin-bottom:14px">Select your risk tolerance. Orion builds your allocation and action plan.</p>
-        <button class="rb on" id="rb-c" data-risk="conservative"><b>Conservative</b><span>Capital preservation. Low volatility. Bonds-heavy.</span></button>
-        <button class="rb" id="rb-m" data-risk="moderate"><b>Moderate</b><span>Balanced growth. Diversified. Long-term horizon.</span></button>
-        <button class="rb" id="rb-a" data-risk="aggressive"><b>Aggressive</b><span>Maximum growth. High equity. 10+ year horizon.</span></button>
+
+      <div id="page-library" class="page">
+        <div class="fw-grid" id="fw-grid"></div>
       </div>
-      <div id="sout"></div>
+
+      <div id="page-market" class="page">
+        <div class="macro-row" id="macro-row"></div>
+        <div class="sec-title" style="margin-bottom:6px">Watchlist</div>
+        <p class="stale-note">Static snapshot. Connect Alpha Vantage or Finnhub API keys in the full app for live quotes.</p>
+        <div class="market-cols">
+          <div class="mkt-table">
+            <div class="mkt-th">Stocks</div>
+            <table>
+              <thead><tr><th>Sym</th><th>Name</th><th>Price</th><th>Chg%</th></tr></thead>
+              <tbody id="stocks-tb"></tbody>
+            </table>
+          </div>
+          <div class="mkt-table">
+            <div class="mkt-th">ETFs</div>
+            <table>
+              <thead><tr><th>Sym</th><th>Name</th><th>Price</th><th>Chg%</th></tr></thead>
+              <tbody id="etfs-tb"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div id="page-savings" class="page">
+        <div class="sav-cols">
+          <div class="card">
+            <div class="sec-title" style="margin-bottom:16px">Savings Goal Calculator</div>
+            <div class="fg"><label>Goal name</label><input type="text" class="text-input" id="g-name" placeholder="Emergency Fund, Down Payment..." /></div>
+            <div class="fg"><label>Target: $<span id="d-target">10,000</span></label><input type="range" id="r-target" min="1000" max="500000" step="1000" value="10000" /><div class="rl"><span>$1K</span><span>$500K</span></div></div>
+            <div class="fg"><label>Monthly contribution: $<span id="d-monthly">500</span></label><input type="range" id="r-monthly" min="50" max="10000" step="50" value="500" /><div class="rl"><span>$50</span><span>$10K</span></div></div>
+            <div class="fg"><label>Annual return: <span id="d-rate">7</span>%</label><input type="range" id="r-rate" min="0" max="15" step="0.5" value="7" /><div class="rl"><span>0%</span><span>15%</span></div></div>
+            <div class="fg"><label>Starting amount: $<span id="d-start">0</span></label><input type="range" id="r-start" min="0" max="100000" step="500" value="0" /><div class="rl"><span>$0</span><span>$100K</span></div></div>
+            <button class="calc-btn" type="button" onclick="calcSavings()">Calculate</button>
+          </div>
+          <div id="sav-result"></div>
+        </div>
+      </div>
+
+      <div id="page-strategy" class="page">
+        <div class="strat-cols">
+          <div class="card">
+            <div class="sec-title" style="margin-bottom:8px">Risk Profile</div>
+            <p style="font-size:12.5px;color:var(--muted);margin-bottom:14px">Select your risk tolerance. Orion builds your allocation and action plan.</p>
+            <button class="risk-btn sel" id="rb-conservative" type="button" onclick="setRisk('conservative')"><strong>Conservative</strong><span>Capital preservation. Low volatility. Bonds-heavy.</span></button>
+            <button class="risk-btn" id="rb-moderate" type="button" onclick="setRisk('moderate')"><strong>Moderate</strong><span>Balanced growth. Diversified. Long-term horizon.</span></button>
+            <button class="risk-btn" id="rb-aggressive" type="button" onclick="setRisk('aggressive')"><strong>Aggressive</strong><span>Maximum growth. High equity. 10+ year horizon.</span></button>
+          </div>
+          <div id="strat-out"></div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
-<div class="mo" id="modal">
-  <div class="mb" id="mbox"></div>
-</div>
-<script>
-var FW=[
-  {e:'&#128214;',n:'Benjamin Graham',c:'Value',b:'Father of value investing. Buy assets below intrinsic value with a margin of safety. Mr. Market is irrational, exploit it.',p:['Buy at a discount to intrinsic value (margin of safety)','Focus on earnings power and book value not price trends','Prefer 10+ years of positive earnings history','Current ratio 2 or above for balance sheet strength','Avoid speculation, invest in businesses not tickers'],r:['P/E below 15 and P/B below 1.5','Positive earnings for 10 consecutive years','EPS growth 3% or more per year over the decade','Dividend payments without interruption for 20+ years','Never pay more than 1.5x book value'],w:['Deep value can stay undervalued for years','Book value less relevant for asset-light tech companies','Tends to underperform during strong bull markets'],h:'Long-term (5-10+ years)',t:['value','defensive','fundamentals']},
-  {e:'&#127913;',n:'Warren Buffett',c:'Value',b:'Buy wonderful companies at fair prices, not fair companies at wonderful prices. Hold forever if the business remains great.',p:['Invest only in businesses you fully understand','Strong durable competitive moat is non-negotiable','Trustworthy owner-oriented management required','Strong free cash flow over reported earnings','Long holding periods, decades not quarters'],r:['ROE consistently above 15% without excessive leverage','Debt-to-equity below 0.5 preferred','High and expanding profit margins over time','Simple predictable business model','Buy when others are fearful'],w:['Buffetts circle of competence is narrow, so is yours','Even wonderful companies can be overpriced','Deep analysis required, not a screen-and-buy strategy'],h:'Very long-term (10-30+ years)',t:['value','moat','quality']},
-  {e:'&#127754;',n:'Ray Dalio / All Weather',c:'Macro',b:'Risk-parity portfolio designed to perform in every economic environment, rising or falling growth, rising or falling inflation.',p:['Diversify across asset classes AND economic environments','Balance risk exposure not dollar allocation','Understand the four economic seasons matrix','Hold real assets to hedge inflation','Radical transparency in process and assumptions'],r:['30% stocks, 40% long bonds, 15% mid bonds, 7.5% gold, 7.5% commodities','Rebalance quarterly to maintain risk parity','Add TIPS or I-bonds for inflation protection','Avoid leverage in personal implementations'],w:['Designed for institutions, personal implementation is complex','Low equity allocation significantly lags in long bull markets','Bond-heavy portfolios suffer when rates rise sharply'],h:'All-weather long-term',t:['macro','risk-parity','diversification']},
-  {e:'&#128202;',n:'Peter Lynch',c:'Growth',b:'Invest in what you know. Retail investors see consumer trends before Wall Street. Growth At a Reasonable Price.',p:['Invest in companies you understand from daily experience','PEG ratio matters more than P/E alone','Know your story, why do you own this stock','Categorize: slow grower, stalwart, fast grower, turnaround','Growth at a reasonable price, GARP'],r:['PEG ratio below 1 (P/E divided by expected growth rate)','Annual EPS growth 20-25% for fast-grower category','Institutional ownership below 50% preferred','Insider buying is a positive confirmation signal','Avoid diworsification, your best 5 ideas beat your worst 20'],w:['Familiarity with a product is not understanding the business','Fast growers crash hard when growth slows','Requires continuous monitoring, the story changes'],h:'Medium to long-term (3-10 years)',t:['growth','GARP','consumer']},
-  {e:'&#127963;',n:'John Bogle / Indexing',c:'Passive',b:'You cannot consistently beat the market. Own it cheaply instead. Costs compound as powerfully as returns, eliminate them.',p:['Low costs compound as powerfully as returns do','Broad diversification eliminates single-stock risk','Time in the market beats timing the market, always','Simplicity is a profound competitive advantage','Your greatest enemy is your own behavior, automate everything'],r:['Total market index funds only, not actively managed','Expense ratio below 0.10%','110 minus your age equals percent in equities','Rebalance once per year maximum','Never sell during market downturns'],w:['Index funds guarantee average market returns, nothing more','Temptation to tinker destroys the edge','Requires extraordinary behavioral discipline during crashes'],h:'Very long-term (20-40+ years)',t:['passive','index','low-cost']},
-  {e:'&#129504;',n:'Charlie Munger',c:'Value',b:'Mental models applied to investing. Think invers
+
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal-box" id="modal-box"></div>
+  </div>
+
+  <script>
+    var FRAMEWORKS = [
+      {emoji:'📖',name:'Benjamin Graham',cat:'Value',bio:'Father of value investing. Buy assets below intrinsic value with a margin of safety. Mr. Market is irrational — exploit it.',principles:['Buy at a discount to intrinsic value (margin of safety)','Focus on earnings power and book value, not price trends','Prefer 10+ years of positive earnings history','Current ratio 2 or above for balance sheet strength','Avoid speculation — invest in businesses, not tickers'],rules:['P/E below 15 and P/B below 1.5','Positive earnings for 10 consecutive years minimum','EPS growth 3% or more per year over the past decade','Dividend payments without interruption for 20+ years','Never pay more than 1.5x book value'],warn:['Deep value can stay undervalued for years — requires patience','Book value less relevant for asset-light tech and service companies','Tends to underperform during strong bull markets'],horizon:'Long-term (5-10+ years)',tags:['value','defensive','fundamentals']},
+      {emoji:'🎩',name:'Warren Buffett',cat:'Value',bio:'Buy wonderful companies at fair prices, not fair companies at wonderful prices. Hold forever if the business remains great.',principles:['Invest only in businesses you fully understand','Strong durable competitive moat is non-negotiable','Trustworthy, owner-oriented management required','Strong free cash flow over reported earnings','Long holding periods — decades, not quarters'],rules:['ROE consistently above 15% without excessive leverage','Debt-to-equity below 0.5 preferred','High and expanding profit margins over time','Simple, predictable business model','Buy when others are fearful'],warn:["Buffett's circle of competence is narrow — so is yours",'Even wonderful companies can be overpriced','Deep analysis required — not a screen-and-buy strategy'],horizon:'Very long-term (10-30+ years)',tags:['value','moat','quality']},
+      {emoji:'🌊',name:'Ray Dalio / All Weather',cat:'Macro',bio:'Risk-parity portfolio designed to perform in every economic environment — rising or falling growth, rising or falling inflation.',principles:['Diversify across asset classes AND economic environments','Balance risk exposure, not dollar allocation','Understand the four economic seasons matrix','Hold real assets to hedge inflation','Radical transparency in process and assumptions'],rules:['Classic: 30% stocks, 40% long bonds, 15% mid bonds, 7.5% gold, 7.5% commodities','Rebalance quarterly to maintain risk parity','Add TIPS or I-bonds for inflation protection','Avoid leverage in personal implementations'],warn:['Designed for institutions — personal implementation is complex','Low equity allocation significantly lags in long bull markets','Bond-heavy portfolios suffer when rates rise sharply'],horizon:'All-weather long-term',tags:['macro','risk-parity','diversification']},
+      {emoji:'📈',name:'Peter Lynch',cat:'Growth',bio:'"Invest in what you know." Retail investors see consumer trends before Wall Street. Growth At a Reasonable Price.',principles:['Invest in companies you understand from daily experience','PEG ratio matters more than P/E alone','Know your story — why do you own this stock?','Categorize: slow grower, stalwart, fast grower, turnaround','Growth at a reasonable price (GARP)'],rules:['PEG ratio below 1 (P/E divided by expected growth rate)','Annual EPS growth 20-25% for fast-grower category','Institutional ownership below 50% preferred','Insider buying is a positive confirmation signal','Avoid diworsification — your best 5 ideas beat your worst 20'],warn:['Familiarity with a product is not understanding the business','Fast growers crash hard when growth slows or misses','Requires continuous monitoring — the story changes'],horizon:'Medium to long-term (3-10 years)',tags:['growth','GARP','consumer']},
+      {emoji:'🏛️',name:'John Bogle / Indexing',cat:'Passive',bio:'You cannot consistently beat the market. Own it cheaply instead. Costs compound as powerfully as returns — eliminate them.',principles:['Low costs compound as powerfully as returns do','Broad diversification eliminates single-stock risk','Time in the market beats timing the market, always','Simplicity is a profound competitive advantage','Your greatest enemy is your own behavior — automate everything'],rules:['Total market index funds only, not actively managed','Expense ratio below 0.10%','Age-based allocation: 110 minus your age equals percent in equities','Rebalance once per year maximum','Never sell during market downturns'],warn:['Index funds guarantee average market returns — nothing more','Temptation to tinker destroys the edge','Requires extraordinary behavioral discipline during crashes'],horizon:'Very long-term (20-40+ years)',tags:['passive','index','low-cost']},
+      {emoji:'🧠',name:'Charlie Munger',cat:'Value',bio:'Mental models applied to investing. Think inversely. A few great decisions over a lifetime beat hundreds of mediocre ones.',principles:['Apply multidisciplinary models from psychology, physics, biology','Invert — think about what could go wrong before what could go right','Avoid stupidity more than seek brilliance','Understand the full business system, not just financials','Sit on your hands — inactivity is often the optimal action'],rules:['Concentrate in your 5-10 absolute best ideas','Never invest with dishonest management','High returns on tangible capital separate great from good','Never invest in something you cannot explain in one sentence'],warn:['Extreme concentration requires deep, verifiable conviction','Requires years to develop genuine mental model fluency','Highly idiosyncratic — hard to replicate'],horizon:'Long-term (10+ years)',tags:['value','concentration','mental-models']},
+      {emoji:'⚡',name:'Momentum Strategy',cat:'Technical',bio:'Stocks that have risen tend to keep rising over 3-12 month horizons. Ride trends, cut losers fast, let winners run.',principles:['Price momentum persists statistically over 3-12 months','Relative strength signals future outperformance','Cut losses at pre-defined thresholds — no exceptions','Position size based on volatility, not conviction','Trend is your friend until the bend at the end'],rules:['Buy top 20% performers over trailing 6-12 months','Exit when price drops below 10-week moving average','Maximum 5-10% per position for risk management','Rebalance monthly or quarterly to refresh signals'],warn:['Momentum crashes violently during sharp reversals','High turnover generates significant tax and transaction costs','Emotional investors cannot execute this — requires strict rules'],horizon:'Short to medium-term (3-12 months)',tags:['technical','trend','tactical']},
+      {emoji:'💰',name:'Dividend Growth',cat:'Income',bio:'Build a growing income stream. Own companies that raise dividends annually for decades. Income compounds like capital.',principles:['Dividend growth signals management confidence','Reinvested dividends compound dramatically over 20+ years','Focus on dividend growth rate over current yield','High-yield with slow growth often beats low-yield with fast growth','Financial strength required to sustain dividends through cycles'],rules:['10+ consecutive years of dividend increases','Payout ratio below 60%','Free cash flow covers dividend 1.5x or more','Debt-to-equity below 1.0','Initial yield above 2.5% for income portfolios'],warn:['Dividend cuts destroy stock price and income simultaneously','High yield can signal an unsustainable payout','Dividend stocks underperform in growth-heavy market cycles'],horizon:'Long-term income (10-30+ years)',tags:['income','dividends','quality']},
+      {emoji:'🔬',name:'Factor Investing',cat:'Quantitative',bio:'Systematic exposure to academically-proven return drivers: value, size, quality, momentum, low volatility.',principles:['Market returns decompose into underlying factor exposures','Multi-factor portfolios reduce single-factor drawdown risk','Factors experience long underperformance — discipline required','Low cost implementation is critical','Academic evidence backs five factors: value, size, quality, momentum, low-vol'],rules:['Use factor ETFs with expense ratios below 0.25%','Diversify across at least three uncorrelated factors','Minimum 10-year investment horizon per factor','Rebalance semi-annually to maintain factor tilts'],warn:['Factor premiums can disappear once widely known','Long drawdown periods of 5-10 years test conviction','Factor crowding causes simultaneous crashes across strategies'],horizon:'Long-term systematic (10+ years)',tags:['quantitative','factor','systematic']},
+      {emoji:'🧭',name:'Contrarian Investing',cat:'Value',bio:'Buy what the crowd hates. Peak pessimism creates peak opportunity. Sell when consensus becomes bullish.',principles:['Extreme sentiment is a reliable contrary indicator','Crises create mispricings rational investors can exploit','The market is a voting machine short-term, weighing machine long-term','Mass psychology drives prices far from fundamentals repeatedly'],rules:['Target sectors with 3+ years of material underperformance','Enter when sentiment indicators below 20th percentile historically','Scale positions gradually','Insider buying during pessimistic periods is a strong signal','Exit when consensus turns positive'],warn:['Being early is indistinguishable from being wrong — position sizing is critical','Requires high tolerance for continued losses before thesis plays out','Not all hated assets recover — some go to zero'],horizon:'Event-driven variable (1-5 years typically)',tags:['contrarian','value','sentiment']}
+    ];
+
+    var STOCKS = [
+      {s:'AAPL',n:'Apple',p:213.49,c:0.87},{s:'MSFT',n:'Microsoft',p:415.32,c:1.24},{s:'GOOGL',n:'Alphabet',p:174.55,c:-0.43},
+      {s:'AMZN',n:'Amazon',p:196.87,c:2.11},{s:'NVDA',n:'NVIDIA',p:118.44,c:3.22},{s:'META',n:'Meta',p:598.13,c:-1.05},
+      {s:'TSLA',n:'Tesla',p:241.37,c:-2.14},{s:'JPM',n:'JPMorgan',p:237.82,c:0.54},{s:'V',n:'Visa',p:335.60,c:0.31},
+      {s:'JNJ',n:'J&J',p:155.23,c:-0.18},{s:'WMT',n:'Walmart',p:95.44,c:0.67},{s:'PG',n:'P&G',p:168.91,c:0.22},
+      {s:'UNH',n:'UnitedHealth',p:493.22,c:-1.33},{s:'HD',n:'Home Depot',p:364.55,c:0.44},{s:'COST',n:'Costco',p:912.77,c:1.88},
+      {s:'MA',n:'Mastercard',p:531.20,c:0.73},{s:'LLY',n:'Eli Lilly',p:787.65,c:2.45},{s:'ABBV',n:'AbbVie',p:194.33,c:-0.62},
+      {s:'NFLX',n:'Netflix',p:983.11,c:1.97},{s:'XOM',n:'ExxonMobil',p:108.74,c:-0.38}
+    ];
+
+    var ETFS = [
+      {s:'SPY',n:'S&P 500 ETF',p:524.38,c:0.63},{s:'VTI',n:'US Total Market',p:263.14,c:0.58},{s:'QQQ',n:'Nasdaq-100',p:448.77,c:1.12},
+      {s:'VXUS',n:'Intl ex-US',p:61.44,c:-0.22},{s:'BND',n:'US Bond Market',p:73.15,c:0.04},{s:'GLD',n:'Gold ETF',p:244.80,c:0.91},
+      {s:'VWO',n:'Emerging Mkts',p:45.33,c:-0.55},{s:'IWM',n:'Russell 2000',p:205.67,c:1.44}
+    ];
+
+    var MACRO = [
+      {n:'Fed Funds Rate',v:'4.33%',s:'FOMC target 4.25-4.50%'},
+      {n:'Core CPI',v:'2.8%',s:'Year-over-year, Feb 2025'},
+      {n:'Unemployment',v:'4.1%',s:'U-3 rate, March 2025'},
+      {n:'10-Yr Treasury',v:'4.21%',s:'Benchmark yield'},
+      {n:'GDP Growth',v:'2.3%',s:'Q4 2024 annualized'},
+      {n:'Yield Curve',v:'+0.22%',s:'10yr minus 2yr spread (normal)'}
+    ];
+
+    var STRATS = {
+      conservative:{
+        alloc:[
+          {l:'US Bonds (BND)',p:50,c:'#3b82f6'},
+          {l:'US Stocks (VTI)',p:25,c:'#f59e0b'},
+          {l:'Intl Stocks (VXUS)',p:10,c:'#10b981'},
+          {l:'Gold (GLD)',p:10,c:'#f97316'},
+          {l:'Cash / HYSA',p:5,c:'#8492a6'}
+        ],
+        exp:'4-6%',
+        dd:'~15%',
+        acts:[
+          'Build a 6-month emergency fund in a high-yield savings account before investing heavily.',
+          'Capture employer match first in your retirement plan.',
+          'Keep most capital in lower-volatility assets until your cash reserves are strong.'
+        ]
+      },
+      moderate:{
+        alloc:[
+          {l:'US Stocks (VTI)',p:45,c:'#f59e0b'},
+          {l:'Intl Stocks (VXUS)',p:20,c:'#10b981'},
+          {l:'US Bonds (BND)',p:25,c:'#3b82f6'},
+          {l:'REITs',p:5,c:'#a855f7'},
+          {l:'Gold (GLD)',p:5,c:'#f97316'}
+        ],
+        exp:'6-8%',
+        dd:'~30%',
+        acts:[
+          'Max your 401(k) match first.',
+          'Automate monthly contributions on payday.',
+          'Rebalance annually by redirecting contributions before selling.'
+        ]
+      },
+      aggressive:{
+        alloc:[
+          {l:'US Stocks (VTI)',p:60,c:'#f59e0b'},
+          {l:'Intl Stocks (VXUS)',p:25,c:'#10b981'},
+          {l:'Small Cap (IWM)',p:10,c:'#a855f7'},
+          {l:'Bonds (BND)',p:5,c:'#3b82f6'}
+        ],
+        exp:'8-10%',
+        dd:'~50%',
+        acts:[
+          'Invest surplus cash consistently with a long time horizon.',
+          'Consider small-cap value tilt for additional growth exposure.',
+          'Do not panic sell during drawdowns.'
+        ]
+      }
+    };
+
+    var PAGE_NAMES = {
+      dashboard:'Dashboard',
+      chat:'Orion Chat',
+      library:'Framework Library',
+      market:'Market Data',
+      savings:'Savings Planner',
+      strategy:'Strategy'
+    };
+
+    var currentRisk = 'conservative';
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function formatCurrency(n) {
+      return '$' + Number(n).toLocaleString(undefined, {maximumFractionDigits: 0});
+    }
+
+    function goTo(p) {
+      var targetPage = document.getElementById('page-' + p);
+      if (!targetPage) return;
+
+      var pages = document.querySelectorAll('.page');
+      for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
+
+      var btns = document.querySelectorAll('.nav-btn');
+      for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
+
+      targetPage.classList.add('active');
+
+      var activeBtn = document.querySelector('.nav-btn[data-p="' + p + '"]');
+      if (activeBtn) activeBtn.classList.add('active');
+
+      var tbTitle = document.getElementById('tb-title');
+      if (tbTitle && PAGE_NAMES[p]) tbTitle.textContent = PAGE_NAMES[p];
+
+      if (p === 'library') renderLibrary();
+      if (p === 'market') renderMarket();
+      if (p === 'strategy') setRisk(currentRisk);
+      if (p === 'savings') updateSavings();
+    }
+
+    function goToChat(msg) {
+      goTo('chat');
+      setTimeout(function () {
+        var input = document.getElementById('chat-input');
+        input.value = msg;
+        autoResize(input);
+        submitChat();
+      }, 120);
+    }
+
+    function renderLibrary() {
+      var grid = document.getElementById('fw-grid');
+      if (!grid) return;
+      if (grid.children.length > 0) return;
+
+      var html = '';
+      for (var i = 0; i < FRAMEWORKS.length; i++) {
+        var f = FRAMEWORKS[i];
+        var tags = '';
+        for (var t = 0; t < f.tags.length; t++) {
+          tags += '<span class="fw-tag">' + escapeHtml(f.tags[t]) + '</span>';
+        }
+
+        html += '<div class="fw-card" onclick="openModal(' + i + ')">' +
+          '<div class="fw-top">' +
+            '<div class="fw-emoji">' + f.emoji + '</div>' +
+            '<div>' +
+              '<div class="fw-name">' + escapeHtml(f.name) + '</div>' +
+              '<div class="fw-cat">' + escapeHtml(f.cat) + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="fw-bio">' + escapeHtml(f.bio) + '</div>' +
+          '<div class="fw-tags">' + tags + '</div>' +
+          '<div class="fw-hor">Time horizon: ' + escapeHtml(f.horizon) + '</div>' +
+        '</div>';
+      }
+
+      grid.innerHTML = html;
+    }
+
+    function openModal(i) {
+      var f = FRAMEWORKS[i];
+      if (!f) return;
+
+      var ph = '', rh = '', wh = '', th = '';
+      for (var p = 0; p < f.principles.length; p++) ph += '<li>' + escapeHtml(f.principles[p]) + '</li>';
+      for (var r = 0; r < f.rules.length; r++) rh += '<li>' + escapeHtml(f.rules[r]) + '</li>';
+      for (var w = 0; w < f.warn.length; w++) wh += '<li class="warn">' + escapeHtml(f.warn[w]) + '</li>';
+      for (var t = 0; t < f.tags.length; t++) th += '<span class="fw-tag">' + escapeHtml(f.tags[t]) + '</span>';
+
+      document.getElementById('modal-box').innerHTML =
+        '<div class="modal-head">' +
+          '<div style="font-size:34px">' + f.emoji + '</div>' +
+          '<div>' +
+            '<h2>' + escapeHtml(f.name) + '</h2>' +
+            '<div class="modal-cat">' + escapeHtml(f.cat) + ' · ' + escapeHtml(f.horizon) + '</div>' +
+          '</div>' +
+          '<button class="modal-close-btn" type="button" onclick="closeModal()">×</button>' +
+        '</div>' +
+        '<p style="color:var(--muted);font-size:13.5px;line-height:1.65;margin-bottom:16px">' + escapeHtml(f.bio) + '</p>' +
+        '<div class="msec"><h4>Core Principles</h4><ul>' + ph + '</ul></div>' +
+        '<div class="msec"><h4>Decision Rules</h4><ul>' + rh + '</ul></div>' +
+        '<div class="msec"><h4>Risk Warnings</h4><ul>' + wh + '</ul></div>' +
+        '<div class="fw-tags" style="margin-top:10px">' + th + '</div>';
+
+      document.getElementById('modal-overlay').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+    }
+
+    function renderMarket() {
+      var mr = document.getElementById('macro-row');
+      if (mr && mr.children.length === 0) {
+        var mh = '';
+        for (var i = 0; i < MACRO.length; i++) {
+          mh += '<div class="mc-card">' +
+            '<div class="mc-name">' + escapeHtml(MACRO[i].n) + '</div>' +
+            '<div class="mc-val">' + escapeHtml(MACRO[i].v) + '</div>' +
+            '<div class="mc-sub">' + escapeHtml(MACRO[i].s) + '</div>' +
+          '</div>';
+        }
+        mr.innerHTML = mh;
+      }
+
+      function mkRow(x) {
+        var cls = x.c >= 0 ? 'price-up' : 'price-dn';
+        var sign = x.c >= 0 ? '+' : '';
+        return '<tr>' +
+          '<td class="sym">' + escapeHtml(x.s) + '</td>' +
+          '<td>' + escapeHtml(x.n) + '</td>' +
+          '<td>$' + Number(x.p).toFixed(2) + '</td>' +
+          '<td class="' + cls + '">' + sign + Number(x.c).toFixed(2) + '%</td>' +
+        '</tr>';
+      }
+
+      var stocksBody = document.getElementById('stocks-tb');
+      var etfsBody = document.getElementById('etfs-tb');
+
+      if (stocksBody) {
+        var stockHtml = '';
+        for (var s = 0; s < STOCKS.length; s++) stockHtml += mkRow(STOCKS[s]);
+        stocksBody.innerHTML = stockHtml;
+      }
+
+      if (etfsBody) {
+        var etfHtml = '';
+        for (var e = 0; e < ETFS.length; e++) etfHtml += mkRow(ETFS[e]);
+        etfsBody.innerHTML = etfHtml;
+      }
+    }
+
+    function updateSavings() {
+      var target = Number(document.getElementById('r-target').value);
+      var monthly = Number(document.getElementById('r-monthly').value);
+      var rate = Number(document.getElementById('r-rate').value);
+      var start = Number(document.getElementById('r-start').value);
+
+      document.getElementById('d-target').textContent = target.toLocaleString();
+      document.getElementById('d-monthly').textContent = monthly.toLocaleString();
+      document.getElementById('d-rate').textContent = rate;
+      document.getElementById('d-start').textContent = start.toLocaleString();
+    }
+
+    function calcSavings() {
+      updateSavings();
+
+      var goalName = document.getElementById('g-name').value.trim() || 'Savings Goal';
+      var target = Number(document.getElementById('r-target').value);
+      var monthly = Number(document.getElementById('r-monthly').value);
+      var annualRate = Number(document.getElementById('r-rate').value);
+      var start = Number(document.getElementById('r-start').value);
+
+      var monthlyRate = annualRate / 100 / 12;
+      var balance = start;
+      var months = 0;
+      var maxMonths = 1200;
+
+      while (balance < target && months < maxMonths) {
+        balance = balance * (1 + monthlyRate) + monthly;
+        months++;
+      }
+
+      var years = Math.floor(months / 12);
+      var remMonths = months % 12;
+      var contributed = start + (monthly * months);
+      var interestEarned = Math.max(0, balance - contributed);
+
+      var timelineText = years > 0 ? years + ' years, ' + remMonths + ' months' : remMonths + ' months';
+
+      document.getElementById('sav-result').innerHTML =
+        '<div class="card">' +
+          '<div class="sec-title" style="margin-bottom:10px">' + escapeHtml(goalName) + ' Projection</div>' +
+          '<div class="res-card">' +
+            '<div class="res-row"><div class="res-lbl">Goal target</div><div class="res-val">' + formatCurrency(target) + '</div></div>' +
+            '<div class="res-row"><div class="res-lbl">Estimated timeline</div><div class="res-val">' + escapeHtml(timelineText) + '</div></div>' +
+            '<div class="res-row"><div class="res-lbl">Ending balance</div><div class="res-val">' + formatCurrency(balance) + '</div></div>' +
+            '<div class="res-row"><div class="res-lbl">Your contributions</div><div class="res-val">' + formatCurrency(contributed) + '</div></div>' +
+            '<div class="res-row"><div class="res-lbl">Growth earned</div><div class="res-val">' + formatCurrency(interestEarned) + '</div></div>' +
+          '</div>' +
+          '<div class="orion-tip"><strong>Orion note:</strong> At ' + annualRate + '% annual growth with ' + formatCurrency(monthly) + ' added monthly, this plan reaches your target in approximately <strong>' + escapeHtml(timelineText) + '</strong>.</div>' +
+        '</div>';
+    }
+
+    function setRisk(level) {
+      currentRisk = level;
+
+      var all = ['conservative', 'moderate', 'aggressive'];
+      for (var i = 0; i < all.length; i++) {
+        var el = document.getElementById('rb-' + all[i]);
+        if (el) el.classList.remove('sel');
+      }
+
+      var selected = document.getElementById('rb-' + level);
+      if (selected) selected.classList.add('sel');
+
+      var data = STRATS[level];
+      if (!data) return;
+
+      var bar = '';
+      var legend = '';
+      for (var j = 0; j < data.alloc.length; j++) {
+        bar += '<div class="alloc-seg" style="width:' + data.alloc[j].p + '%;background:' + data.alloc[j].c + '"></div>';
+        legend += '<div class="leg-row"><span class="leg-dot" style="background:' + data.alloc[j].c + '"></span><span>' + escapeHtml(data.alloc[j].l) + ' — <strong>' + data.alloc[j].p + '%</strong></span></div>';
+      }
+
+      var acts = '';
+      for (var a = 0; a < data.acts.length; a++) {
+        acts += '<div class="act-item"><span class="act-num">' + (a + 1) + '.</span>' + escapeHtml(data.acts[a]) + '</div>';
+      }
+
+      document.getElementById('strat-out').innerHTML =
+        '<div class="card">' +
+          '<div class="sec-title" style="margin-bottom:10px">Suggested Allocation</div>' +
+          '<div class="exp-row">' +
+            '<div><strong style="color:var(--amber)">Expected Return:</strong> ' + escapeHtml(data.exp) + '</div>' +
+            '<div><strong style="color:var(--amber)">Estimated Max Drawdown:</strong> ' + escapeHtml(data.dd) + '</div>' +
+          '</div>' +
+          '<div class="alloc-bar">' + bar + '</div>' +
+          '<div class="alloc-legend">' + legend + '</div>' +
+          '<div class="sec-title" style="margin:18px 0 10px">Action Plan</div>' +
+          '<div class="act-list">' + acts + '</div>' +
+        '</div>';
+    }
+
+    function autoResize(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 110) + 'px';
+    }
+
+    function handleChatKey(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        submitChat();
+      }
+    }
+
+    function appendUserMessage(text) {
+      var area = document.getElementById('chat-area');
+      var wrap = document.createElement('div');
+      wrap.className = 'msg user';
+      wrap.innerHTML = '<div class="bub">' + escapeHtml(text) + '</div>';
+      area.appendChild(wrap);
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function appendOrionMessage(html) {
+      var area = document.getElementById('chat-area');
+      var wrap = document.createElement('div');
+      wrap.className = 'msg orion';
+      wrap.innerHTML = '<div class="av">O</div><div class="bub">' + html + '</div>';
+      area.appendChild(wrap);
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function showTyping() {
+      var area = document.getElementById('chat-area');
+      var wrap = document.createElement('div');
+      wrap.className = 'msg orion';
+      wrap.id = 'typing-msg';
+      wrap.innerHTML = '<div class="av">O</div><div class="bub"><span class="typing-dots"><span></span><span></span><span></span></span></div>';
+      area.appendChild(wrap);
+      area.scrollTop = area.scrollHeight;
+    }
+
+    function hideTyping() {
+      var t = document.getElementById('typing-msg');
+      if (t) t.remove();
+    }
+
+    function extractNumbers(text) {
+      var matches = text.match(/-?\d+(\.\d+)?/g);
+      return matches ? matches.map(Number) : [];
+    }
+
+    function buildResponse(prompt) {
+      var q = prompt.toLowerCase();
+      var nums = extractNumbers(prompt);
+
+      if (q.includes('dti')) {
+        var annualIncome = nums[0] || 0;
+        var monthlyDebt = nums[1] || 0;
+        var grossMonthly = annualIncome / 12;
+        var dti = grossMonthly > 0 ? (monthlyDebt / grossMonthly) * 100 : 0;
+        var rating = dti < 20 ? 'excellent' : dti < 36 ? 'healthy' : dti < 43 ? 'borderline' : 'high-risk';
+
+        return '<div class="chip-row"><span class="chip">DTI</span><span class="chip">Lending</span></div>' +
+          'Here is the calculation:\n\n' +
+          '1. Gross monthly income = ' + formatCurrency(annualIncome) + ' ÷ 12 = ' + formatCurrency(grossMonthly) + '\n' +
+          '2. Monthly debt payments = ' + formatCurrency(monthlyDebt) + '\n' +
+          '3. DTI = ' + formatCurrency(monthlyDebt) + ' ÷ ' + formatCurrency(grossMonthly) + ' = ' + dti.toFixed(1) + '%\n\n' +
+          'Your estimated DTI is <strong>' + dti.toFixed(1) + '%</strong>, which is generally considered <strong>' + rating + '</strong>.';
+      }
+
+      if (q.includes('compound')) {
+        var principal = nums[0] || 0;
+        var rate = nums[1] || 0;
+        var years = nums[2] || 10;
+        var future = principal * Math.pow(1 + (rate / 100), years);
+        return '<div class="chip-row"><span class="chip">Compound Interest</span></div>' +
+          'Using annual compounding:\n\n' +
+          '1. Principal = ' + formatCurrency(principal) + '\n' +
+          '2. Rate = ' + rate + '%\n' +
+          '3. Time = ' + years + ' years\n' +
+          '4. Future value = P × (1 + r)^t\n' +
+          '5. Future value = ' + formatCurrency(principal) + ' × (1 + ' + (rate/100).toFixed(2) + ')^' + years + '\n\n' +
+          'Estimated future value: <strong>' + formatCurrency(future) + '</strong>.';
+      }
+
+      if (q.includes('emergency fund')) {
+        var spend = nums[0] || 0;
+        var three = spend * 3;
+        var six = spend * 6;
+        return '<div class="chip-row"><span class="chip">Emergency Fund</span></div>' +
+          'A simple emergency fund range is based on 3 to 6 months of core expenses.\n\n' +
+          '1. Monthly spending = ' + formatCurrency(spend) + '\n' +
+          '2. 3-month reserve = ' + formatCurrency(three) + '\n' +
+          '3. 6-month reserve = ' + formatCurrency(six) + '\n\n' +
+          'A strong target range for you is <strong>' + formatCurrency(three) + ' to ' + formatCurrency(six) + '</strong>.';
+      }
+
+      if (q.includes('budget')) {
+        var takeHome = nums[0] || 0;
+        var needs = takeHome * 0.50;
+        var wants = takeHome * 0.30;
+        var savings = takeHome * 0.20;
+        return '<div class="chip-row"><span class="chip">Budgeting</span><span class="chip">50/30/20</span></div>' +
+          'Using the 50/30/20 budgeting framework:\n\n' +
+          '1. Monthly take-home pay = ' + formatCurrency(takeHome) + '\n' +
+          '2. Needs (50%) = ' + formatCurrency(needs) + '\n' +
+          '3. Wants (30%) = ' + formatCurrency(wants) + '\n' +
+          '4. Savings / debt payoff (20%) = ' + formatCurrency(savings) + '\n\n' +
+          'This gives you a clean baseline budget to start refining.';
+      }
+
+      if (q.includes('fire')) {
+        var monthlySave = nums[0] || 0;
+        var income = nums[1] || 0;
+        var annualSpend = income * 0.7;
+        var fireNumber = annualSpend * 25;
+        var annualContribution = monthlySave * 12;
+        var estYears = annualContribution > 0 ? fireNumber / annualContribution : 0;
+        return '<div class="chip-row"><span class="chip">FIRE</span><span class="chip">Long-Term Planning</span></div>' +
+          'Here is a rough FIRE estimate using the 4% rule:\n\n' +
+          '1. Approx annual spending estimate = 70% of income = ' + formatCurrency(annualSpend) + '\n' +
+          '2. FIRE number = annual spending × 25 = ' + formatCurrency(fireNumber) + '\n' +
+          '3. Annual investing contribution = ' + formatCurrency(annualContribution) + '\n' +
+          '4. Simple no-growth pay-in timeline = ' + estYears.toFixed(1) + ' years\n\n' +
+          'With investment growth, the real timeline can be meaningfully shorter. Your rough FIRE target is <strong>' + formatCurrency(fireNumber) + '</strong>.';
+      }
+
+      if (q.includes('portfolio allocation') || q.includes('allocation')) {
+        var age = nums[0] || 30;
+        var equity = Math.max(40, Math.min(95, 110 - age));
+        var bonds = 100 - equity;
+        return '<div class="chip-row"><span class="chip">Allocation</span><span class="chip">Age-Based</span></div>' +
+          'A simple age-based framework:\n\n' +
+          '1. Equity allocation = 110 - age\n' +
+          '2. 110 - ' + age + ' = ' + equity + '% stocks\n' +
+          '3. Remaining allocation = ' + bonds + '% bonds/cash\n\n' +
+          'A simple starting point would be <strong>' + equity + '% equities</strong> and <strong>' + bonds + '% defensive assets</strong>.';
+      }
+
+      if (q.includes('debt') && q.includes('invest')) {
+        var loan = nums[0] || 0;
+        var loanRate = nums[1] || 0;
+        var investMonthly = nums[2] || 0;
+        var annualInterest = loan * (loanRate / 100);
+        return '<div class="chip-row"><span class="chip">Debt vs Investing</span></div>' +
+          'This comes down to comparing your guaranteed debt cost to expected market return.\n\n' +
+          '1. Loan balance = ' + formatCurrency(loan) + '\n' +
+          '2. Loan rate = ' + loanRate + '%\n' +
+          '3. Approx annual interest cost = ' + formatCurrency(annualInterest) + '\n' +
+          '4. Monthly amount available = ' + formatCurrency(investMonthly) + '\n\n' +
+          'A debt rate of <strong>' + loanRate + '%</strong> is a guaranteed drag. If your rate is above about 6-7%, many people prioritize payoff before aggressive investing unless they are still getting a 401(k) match.';
+      }
+
+      return '<div class="chip-row"><span class="chip">General Financial Guidance</span></div>' +
+        'I can help with DTI, debt payoff comparisons, portfolio allocation, savings goals, emergency funds, compound interest, and FIRE planning.\n\n' +
+        'For the best answer, send me your actual numbers and I will calculate it step-by-step.';
+    }
+
+    function fillAndSubmit(text) {
+      goTo('chat');
+      var input = document.getElementById('chat-input');
+      input.value = text;
+      autoResize(input);
+      submitChat();
+    }
+
+    function submitChat() {
+      var input = document.getElementById('chat-input');
+      var btn = document.getElementById('submit-btn');
+      var text = input.value.trim();
+      if (!text) return;
+
+      appendUserMessage(text);
+      input.value = '';
+      autoResize(input);
+      btn.disabled = true;
+
+      showTyping();
+
+      setTimeout(function () {
+        hideTyping();
+        appendOrionMessage(buildResponse(text));
+        btn.disabled = false;
+      }, 700);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      var navButtons = document.querySelectorAll('.nav-btn');
+      for (var i = 0; i < navButtons.length; i++) {
+        navButtons[i].addEventListener('click', function () {
+          var page = this.getAttribute('data-p');
+          goTo(page);
+        });
+      }
+
+      document.getElementById('modal-overlay').addEventListener('click', function (e) {
+        if (e.target.id === 'modal-overlay') closeModal();
+      });
+
+      var chatInput = document.getElementById('chat-input');
+      var submitBtn = document.getElementById('submit-btn');
+
+      chatInput.addEventListener('keydown', handleChatKey);
+      chatInput.addEventListener('input', function () { autoResize(this); });
+      submitBtn.addEventListener('click', submitChat);
+
+      document.getElementById('r-target').addEventListener('input', updateSavings);
+      document.getElementById('r-monthly').addEventListener('input', updateSavings);
+      document.getElementById('r-rate').addEventListener('input', updateSavings);
+      document.getElementById('r-start').addEventListener('input', updateSavings);
+
+      updateSavings();
+      setRisk('conservative');
+      renderLibrary();
+      renderMarket();
+    });
+  </script>
+</body>
+</html>
