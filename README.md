@@ -31,7 +31,7 @@ It's not a chatbot that gives generic advice. It's a reasoning system that runs 
 
 ## Interactive Demo
 
-The demo at **[rasheekf.github.io/workspace](https://rasheekf.github.io/workspace/)** is a fully static walkthrough that runs in your browser with no server, no login, and no setup. It shows Orion working through four real financial scenarios:
+The demo at **[rasheekf.github.io/workspace](https://rasheekfutrell.github.io/Prometheus-Showcase/)** is a fully static walkthrough that runs in your browser with no server, no login, and no setup. It shows Orion working through four real financial scenarios:
 
 | Scenario | What Orion calculates |
 |---|---|
