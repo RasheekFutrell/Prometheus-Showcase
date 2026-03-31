@@ -61,12 +61,14 @@
       margin-left:auto;background:var(--glow);border:1px solid rgba(245,158,11,.3);color:var(--amber);
       font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:20px
     }
+
+    /* PAGE SYSTEM — FIX: chat needs display:flex, others display:block */
     .page{display:none;flex:1;overflow-y:auto;padding:22px;min-height:0}
     .page.active{display:block}
+    .page.active.chat-page{display:flex;flex-direction:column;padding:0}
     .page::-webkit-scrollbar{width:4px}
     .page::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
-    #page-chat{padding:0}
-    #page-chat.active{display:flex;flex-direction:column}
+
     .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:22px}
     .stat-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px}
     .stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
@@ -119,7 +121,7 @@
     .typing-dots span:nth-child(2){animation-delay:.2s}
     .typing-dots span:nth-child(3){animation-delay:.4s}
     @keyframes tp{0%,80%,100%{opacity:.2;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
-    .chip-row{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+    .chip-row{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
     .chip{
       background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.25);color:var(--amber);
       font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px
@@ -164,7 +166,7 @@
     .modal-box::-webkit-scrollbar{width:4px}
     .modal-box::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
     .modal-head{display:flex;align-items:flex-start;gap:13px;margin-bottom:16px}
-    .modal-close-btn{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:19px;padding:4px;line-height:1}
+    .modal-close-btn{margin-left:auto;background:none;border:none;color:var(--muted);cursor:pointer;font-size:22px;padding:0 4px;line-height:1}
     .modal-box h2{font-family:'Bricolage Grotesque',sans-serif;font-size:19px;font-weight:700}
     .modal-cat{font-size:11px;color:var(--amber);font-weight:700;text-transform:uppercase;letter-spacing:.07em}
     .msec{margin-bottom:14px}
@@ -259,21 +261,17 @@
           <div class="logo-sub">ORION ENGINE</div>
         </div>
       </div>
-
       <nav>
         <div class="nav-section">Overview</div>
         <button class="nav-btn active" data-p="dashboard"><span class="nav-icon">&#9889;</span>Dashboard</button>
-
         <div class="nav-section">Intelligence</div>
         <button class="nav-btn" data-p="chat"><span class="nav-icon">&#128172;</span>Orion Chat</button>
         <button class="nav-btn" data-p="library"><span class="nav-icon">&#128218;</span>Framework Library</button>
         <button class="nav-btn" data-p="market"><span class="nav-icon">&#128200;</span>Market Data</button>
-
         <div class="nav-section">Planning</div>
         <button class="nav-btn" data-p="savings"><span class="nav-icon">&#127919;</span>Savings Planner</button>
         <button class="nav-btn" data-p="strategy"><span class="nav-icon">&#129517;</span>Strategy</button>
       </nav>
-
       <div class="sidebar-foot">
         <div class="orion-badge"><div class="pulse"></div>Orion engine active</div>
       </div>
@@ -285,6 +283,7 @@
         <div class="demo-badge">Public Demo</div>
       </div>
 
+      <!-- DASHBOARD -->
       <div id="page-dashboard" class="page active">
         <div class="stat-row">
           <div class="stat-card">
@@ -303,7 +302,6 @@
             <div class="stat-sub">Step-by-step financial math</div>
           </div>
         </div>
-
         <div class="sec-title">Quick Actions</div>
         <div class="qa-row">
           <button class="qa-btn" onclick="goToChat('What is my DTI if I earn 85000 per year and have 1100 per month in debt payments?')">Calculate DTI</button>
@@ -313,7 +311,6 @@
           <button class="qa-btn" onclick="goTo('library')">Browse Frameworks</button>
           <button class="qa-btn" onclick="goTo('savings')">Savings Goal</button>
         </div>
-
         <div class="sec-title">Orion Insights</div>
         <div class="tips">
           <div class="tip"><div class="tip-head">Rule of 72</div>Divide 72 by your annual return to find how long money takes to double. At 7%, your money doubles in ~10.3 years. At 10%, just 7.2 years. This is why rate of return matters more than most people realise.</div>
@@ -323,17 +320,17 @@
         </div>
       </div>
 
-      <div id="page-chat" class="page">
+      <!-- CHAT — note the extra chat-page class -->
+      <div id="page-chat" class="page chat-page">
         <div class="chat-sugg" id="chat-sugg">
           <button class="sugg-btn" onclick="fillAndSubmit('What is my DTI if I earn 75000 per year with 900 per month in debt payments?')">DTI calc</button>
           <button class="sugg-btn" onclick="fillAndSubmit('Pay off 20000 loan at 6.5% or invest 400 per month?')">Debt vs invest</button>
           <button class="sugg-btn" onclick="fillAndSubmit('FIRE projection: saving 2000 per month on 95000 income')">FIRE timeline</button>
           <button class="sugg-btn" onclick="fillAndSubmit('Portfolio allocation at age 34')">Portfolio allocation</button>
           <button class="sugg-btn" onclick="fillAndSubmit('How much should my emergency fund be if I spend 4500 per month?')">Emergency fund</button>
-          <button class="sugg-btn" onclick="fillAndSubmit('Explain compound interest on 15000 at 8 percent')">Compound interest</button>
+          <button class="sugg-btn" onclick="fillAndSubmit('Explain compound interest on 15000 at 8 percent for 20 years')">Compound interest</button>
           <button class="sugg-btn" onclick="fillAndSubmit('Budget breakdown on 6500 per month take-home')">Budget 50/30/20</button>
         </div>
-
         <div class="chat-area" id="chat-area">
           <div class="msg orion">
             <div class="av">O</div>
@@ -344,17 +341,18 @@ Ask me anything financial. I will show my work step-by-step with actual calculat
 Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio allocation, compound interest, emergency fund sizing, budget frameworks, or net worth tracking.</div>
           </div>
         </div>
-
         <div class="chat-foot">
           <textarea id="chat-input" class="chat-input" placeholder="Ask Orion anything financial. Include your numbers for precise calculations..." rows="1"></textarea>
-          <button class="submit-btn" id="submit-btn" type="button">Send</button>
+          <button class="submit-btn" id="submit-btn" type="button" onclick="submitChat()">Send</button>
         </div>
       </div>
 
+      <!-- LIBRARY -->
       <div id="page-library" class="page">
         <div class="fw-grid" id="fw-grid"></div>
       </div>
 
+      <!-- MARKET -->
       <div id="page-market" class="page">
         <div class="macro-row" id="macro-row"></div>
         <div class="sec-title" style="margin-bottom:6px">Watchlist</div>
@@ -362,36 +360,48 @@ Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio 
         <div class="market-cols">
           <div class="mkt-table">
             <div class="mkt-th">Stocks</div>
-            <table>
-              <thead><tr><th>Sym</th><th>Name</th><th>Price</th><th>Chg%</th></tr></thead>
-              <tbody id="stocks-tb"></tbody>
-            </table>
+            <table><thead><tr><th>Sym</th><th>Name</th><th>Price</th><th>Chg%</th></tr></thead><tbody id="stocks-tb"></tbody></table>
           </div>
           <div class="mkt-table">
             <div class="mkt-th">ETFs</div>
-            <table>
-              <thead><tr><th>Sym</th><th>Name</th><th>Price</th><th>Chg%</th></tr></thead>
-              <tbody id="etfs-tb"></tbody>
-            </table>
+            <table><thead><tr><th>Sym</th><th>Name</th><th>Price</th><th>Chg%</th></tr></thead><tbody id="etfs-tb"></tbody></table>
           </div>
         </div>
       </div>
 
+      <!-- SAVINGS -->
       <div id="page-savings" class="page">
         <div class="sav-cols">
           <div class="card">
             <div class="sec-title" style="margin-bottom:16px">Savings Goal Calculator</div>
             <div class="fg"><label>Goal name</label><input type="text" class="text-input" id="g-name" placeholder="Emergency Fund, Down Payment..." /></div>
-            <div class="fg"><label>Target: $<span id="d-target">10,000</span></label><input type="range" id="r-target" min="1000" max="500000" step="1000" value="10000" /><div class="rl"><span>$1K</span><span>$500K</span></div></div>
-            <div class="fg"><label>Monthly contribution: $<span id="d-monthly">500</span></label><input type="range" id="r-monthly" min="50" max="10000" step="50" value="500" /><div class="rl"><span>$50</span><span>$10K</span></div></div>
-            <div class="fg"><label>Annual return: <span id="d-rate">7</span>%</label><input type="range" id="r-rate" min="0" max="15" step="0.5" value="7" /><div class="rl"><span>0%</span><span>15%</span></div></div>
-            <div class="fg"><label>Starting amount: $<span id="d-start">0</span></label><input type="range" id="r-start" min="0" max="100000" step="500" value="0" /><div class="rl"><span>$0</span><span>$100K</span></div></div>
+            <div class="fg">
+              <label>Target: $<span id="d-target">10,000</span></label>
+              <input type="range" id="r-target" min="1000" max="500000" step="1000" value="10000" oninput="updateSavings()" />
+              <div class="rl"><span>$1K</span><span>$500K</span></div>
+            </div>
+            <div class="fg">
+              <label>Monthly contribution: $<span id="d-monthly">500</span></label>
+              <input type="range" id="r-monthly" min="50" max="10000" step="50" value="500" oninput="updateSavings()" />
+              <div class="rl"><span>$50</span><span>$10K</span></div>
+            </div>
+            <div class="fg">
+              <label>Annual return: <span id="d-rate">7</span>%</label>
+              <input type="range" id="r-rate" min="0" max="15" step="0.5" value="7" oninput="updateSavings()" />
+              <div class="rl"><span>0%</span><span>15%</span></div>
+            </div>
+            <div class="fg">
+              <label>Starting amount: $<span id="d-start">0</span></label>
+              <input type="range" id="r-start" min="0" max="100000" step="500" value="0" oninput="updateSavings()" />
+              <div class="rl"><span>$0</span><span>$100K</span></div>
+            </div>
             <button class="calc-btn" type="button" onclick="calcSavings()">Calculate</button>
           </div>
           <div id="sav-result"></div>
         </div>
       </div>
 
+      <!-- STRATEGY -->
       <div id="page-strategy" class="page">
         <div class="strat-cols">
           <div class="card">
@@ -407,7 +417,7 @@ Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio 
     </div>
   </div>
 
-  <div class="modal-overlay" id="modal-overlay">
+  <div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
     <div class="modal-box" id="modal-box"></div>
   </div>
 
@@ -458,14 +468,8 @@ Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio 
           {l:'Intl Stocks (VXUS)',p:10,c:'#10b981'},
           {l:'Gold (GLD)',p:10,c:'#f97316'},
           {l:'Cash / HYSA',p:5,c:'#8492a6'}
-        ],
-        exp:'4-6%',
-        dd:'~15%',
-        acts:[
-          'Build a 6-month emergency fund in a high-yield savings account before investing heavily.',
-          'Capture employer match first in your retirement plan.',
-          'Keep most capital in lower-volatility assets until your cash reserves are strong.'
-        ]
+        ],exp:'4-6%',dd:'~15%',
+        acts:['Build a 6-month emergency fund in a high-yield savings account before investing heavily.','Capture employer match first in your retirement plan.','Keep most capital in lower-volatility assets until your cash reserves are strong.']
       },
       moderate:{
         alloc:[
@@ -474,14 +478,8 @@ Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio 
           {l:'US Bonds (BND)',p:25,c:'#3b82f6'},
           {l:'REITs',p:5,c:'#a855f7'},
           {l:'Gold (GLD)',p:5,c:'#f97316'}
-        ],
-        exp:'6-8%',
-        dd:'~30%',
-        acts:[
-          'Max your 401(k) match first.',
-          'Automate monthly contributions on payday.',
-          'Rebalance annually by redirecting contributions before selling.'
-        ]
+        ],exp:'6-8%',dd:'~30%',
+        acts:['Max your 401(k) match first.','Automate monthly contributions on payday.','Rebalance annually by redirecting contributions before selling.']
       },
       aggressive:{
         alloc:[
@@ -489,59 +487,26 @@ Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio 
           {l:'Intl Stocks (VXUS)',p:25,c:'#10b981'},
           {l:'Small Cap (IWM)',p:10,c:'#a855f7'},
           {l:'Bonds (BND)',p:5,c:'#3b82f6'}
-        ],
-        exp:'8-10%',
-        dd:'~50%',
-        acts:[
-          'Invest surplus cash consistently with a long time horizon.',
-          'Consider small-cap value tilt for additional growth exposure.',
-          'Do not panic sell during drawdowns.'
-        ]
+        ],exp:'8-10%',dd:'~50%',
+        acts:['Invest surplus cash consistently with a long time horizon.','Consider small-cap value tilt for additional growth exposure.','Do not panic sell during drawdowns.']
       }
     };
 
-    var PAGE_NAMES = {
-      dashboard:'Dashboard',
-      chat:'Orion Chat',
-      library:'Framework Library',
-      market:'Market Data',
-      savings:'Savings Planner',
-      strategy:'Strategy'
-    };
-
+    var PAGE_NAMES = {dashboard:'Dashboard',chat:'Orion Chat',library:'Framework Library',market:'Market Data',savings:'Savings Planner',strategy:'Strategy'};
     var currentRisk = 'conservative';
 
-    function escapeHtml(str) {
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    function formatCurrency(n) {
-      return '$' + Number(n).toLocaleString(undefined, {maximumFractionDigits: 0});
-    }
+    function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+    function fmt(n){return '$'+Number(n).toLocaleString(undefined,{maximumFractionDigits:0})}
 
     function goTo(p) {
-      var targetPage = document.getElementById('page-' + p);
-      if (!targetPage) return;
-
-      var pages = document.querySelectorAll('.page');
-      for (var i = 0; i < pages.length; i++) pages[i].classList.remove('active');
-
-      var btns = document.querySelectorAll('.nav-btn');
-      for (var j = 0; j < btns.length; j++) btns[j].classList.remove('active');
-
-      targetPage.classList.add('active');
-
-      var activeBtn = document.querySelector('.nav-btn[data-p="' + p + '"]');
-      if (activeBtn) activeBtn.classList.add('active');
-
-      var tbTitle = document.getElementById('tb-title');
-      if (tbTitle && PAGE_NAMES[p]) tbTitle.textContent = PAGE_NAMES[p];
-
+      document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active')});
+      document.querySelectorAll('.nav-btn').forEach(function(el){el.classList.remove('active')});
+      var pg = document.getElementById('page-' + p);
+      if (pg) pg.classList.add('active');
+      var btn = document.querySelector('.nav-btn[data-p="' + p + '"]');
+      if (btn) btn.classList.add('active');
+      var tb = document.getElementById('tb-title');
+      if (tb && PAGE_NAMES[p]) tb.textContent = PAGE_NAMES[p];
       if (p === 'library') renderLibrary();
       if (p === 'market') renderMarket();
       if (p === 'strategy') setRisk(currentRisk);
@@ -550,115 +515,67 @@ Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio 
 
     function goToChat(msg) {
       goTo('chat');
-      setTimeout(function () {
-        var input = document.getElementById('chat-input');
-        input.value = msg;
-        autoResize(input);
-        submitChat();
+      setTimeout(function() {
+        var inp = document.getElementById('chat-input');
+        inp.value = msg; autoResize(inp); submitChat();
       }, 120);
     }
 
     function renderLibrary() {
       var grid = document.getElementById('fw-grid');
-      if (!grid) return;
-      if (grid.children.length > 0) return;
-
+      if (!grid || grid.children.length > 0) return;
       var html = '';
       for (var i = 0; i < FRAMEWORKS.length; i++) {
         var f = FRAMEWORKS[i];
         var tags = '';
-        for (var t = 0; t < f.tags.length; t++) {
-          tags += '<span class="fw-tag">' + escapeHtml(f.tags[t]) + '</span>';
-        }
-
+        for (var t = 0; t < f.tags.length; t++) tags += '<span class="fw-tag">' + esc(f.tags[t]) + '</span>';
         html += '<div class="fw-card" onclick="openModal(' + i + ')">' +
-          '<div class="fw-top">' +
-            '<div class="fw-emoji">' + f.emoji + '</div>' +
-            '<div>' +
-              '<div class="fw-name">' + escapeHtml(f.name) + '</div>' +
-              '<div class="fw-cat">' + escapeHtml(f.cat) + '</div>' +
-            '</div>' +
-          '</div>' +
-          '<div class="fw-bio">' + escapeHtml(f.bio) + '</div>' +
+          '<div class="fw-top"><div class="fw-emoji">' + f.emoji + '</div>' +
+          '<div><div class="fw-name">' + esc(f.name) + '</div><div class="fw-cat">' + esc(f.cat) + '</div></div></div>' +
+          '<div class="fw-bio">' + esc(f.bio) + '</div>' +
           '<div class="fw-tags">' + tags + '</div>' +
-          '<div class="fw-hor">Time horizon: ' + escapeHtml(f.horizon) + '</div>' +
-        '</div>';
+          '<div class="fw-hor">Time horizon: ' + esc(f.horizon) + '</div></div>';
       }
-
       grid.innerHTML = html;
     }
 
     function openModal(i) {
-      var f = FRAMEWORKS[i];
-      if (!f) return;
-
-      var ph = '', rh = '', wh = '', th = '';
-      for (var p = 0; p < f.principles.length; p++) ph += '<li>' + escapeHtml(f.principles[p]) + '</li>';
-      for (var r = 0; r < f.rules.length; r++) rh += '<li>' + escapeHtml(f.rules[r]) + '</li>';
-      for (var w = 0; w < f.warn.length; w++) wh += '<li class="warn">' + escapeHtml(f.warn[w]) + '</li>';
-      for (var t = 0; t < f.tags.length; t++) th += '<span class="fw-tag">' + escapeHtml(f.tags[t]) + '</span>';
-
+      var f = FRAMEWORKS[i]; if (!f) return;
+      var ph='',rh='',wh='',th='';
+      for (var p=0;p<f.principles.length;p++) ph += '<li>' + esc(f.principles[p]) + '</li>';
+      for (var r=0;r<f.rules.length;r++) rh += '<li>' + esc(f.rules[r]) + '</li>';
+      for (var w=0;w<f.warn.length;w++) wh += '<li class="warn">' + esc(f.warn[w]) + '</li>';
+      for (var t=0;t<f.tags.length;t++) th += '<span class="fw-tag">' + esc(f.tags[t]) + '</span>';
       document.getElementById('modal-box').innerHTML =
-        '<div class="modal-head">' +
-          '<div style="font-size:34px">' + f.emoji + '</div>' +
-          '<div>' +
-            '<h2>' + escapeHtml(f.name) + '</h2>' +
-            '<div class="modal-cat">' + escapeHtml(f.cat) + ' · ' + escapeHtml(f.horizon) + '</div>' +
-          '</div>' +
-          '<button class="modal-close-btn" type="button" onclick="closeModal()">×</button>' +
-        '</div>' +
-        '<p style="color:var(--muted);font-size:13.5px;line-height:1.65;margin-bottom:16px">' + escapeHtml(f.bio) + '</p>' +
+        '<div class="modal-head"><div style="font-size:34px">' + f.emoji + '</div>' +
+        '<div><h2>' + esc(f.name) + '</h2><div class="modal-cat">' + esc(f.cat) + ' · ' + esc(f.horizon) + '</div></div>' +
+        '<button class="modal-close-btn" onclick="closeModal()">&#x2715;</button></div>' +
+        '<p style="color:var(--muted);font-size:13.5px;line-height:1.65;margin-bottom:16px">' + esc(f.bio) + '</p>' +
         '<div class="msec"><h4>Core Principles</h4><ul>' + ph + '</ul></div>' +
         '<div class="msec"><h4>Decision Rules</h4><ul>' + rh + '</ul></div>' +
         '<div class="msec"><h4>Risk Warnings</h4><ul>' + wh + '</ul></div>' +
         '<div class="fw-tags" style="margin-top:10px">' + th + '</div>';
-
       document.getElementById('modal-overlay').classList.add('open');
     }
 
-    function closeModal() {
-      document.getElementById('modal-overlay').classList.remove('open');
-    }
+    function closeModal() { document.getElementById('modal-overlay').classList.remove('open'); }
 
     function renderMarket() {
       var mr = document.getElementById('macro-row');
       if (mr && mr.children.length === 0) {
         var mh = '';
-        for (var i = 0; i < MACRO.length; i++) {
-          mh += '<div class="mc-card">' +
-            '<div class="mc-name">' + escapeHtml(MACRO[i].n) + '</div>' +
-            '<div class="mc-val">' + escapeHtml(MACRO[i].v) + '</div>' +
-            '<div class="mc-sub">' + escapeHtml(MACRO[i].s) + '</div>' +
-          '</div>';
-        }
+        for (var i=0;i<MACRO.length;i++) mh += '<div class="mc-card"><div class="mc-name">'+esc(MACRO[i].n)+'</div><div class="mc-val">'+esc(MACRO[i].v)+'</div><div class="mc-sub">'+esc(MACRO[i].s)+'</div></div>';
         mr.innerHTML = mh;
       }
-
       function mkRow(x) {
         var cls = x.c >= 0 ? 'price-up' : 'price-dn';
         var sign = x.c >= 0 ? '+' : '';
-        return '<tr>' +
-          '<td class="sym">' + escapeHtml(x.s) + '</td>' +
-          '<td>' + escapeHtml(x.n) + '</td>' +
-          '<td>$' + Number(x.p).toFixed(2) + '</td>' +
-          '<td class="' + cls + '">' + sign + Number(x.c).toFixed(2) + '%</td>' +
-        '</tr>';
+        return '<tr><td class="sym">'+esc(x.s)+'</td><td>'+esc(x.n)+'</td><td>$'+x.p.toFixed(2)+'</td><td class="'+cls+'">'+sign+x.c.toFixed(2)+'%</td></tr>';
       }
-
-      var stocksBody = document.getElementById('stocks-tb');
-      var etfsBody = document.getElementById('etfs-tb');
-
-      if (stocksBody) {
-        var stockHtml = '';
-        for (var s = 0; s < STOCKS.length; s++) stockHtml += mkRow(STOCKS[s]);
-        stocksBody.innerHTML = stockHtml;
-      }
-
-      if (etfsBody) {
-        var etfHtml = '';
-        for (var e = 0; e < ETFS.length; e++) etfHtml += mkRow(ETFS[e]);
-        etfsBody.innerHTML = etfHtml;
-      }
+      var sb = document.getElementById('stocks-tb');
+      var eb = document.getElementById('etfs-tb');
+      if (sb) { var sh=''; for (var s=0;s<STOCKS.length;s++) sh+=mkRow(STOCKS[s]); sb.innerHTML=sh; }
+      if (eb) { var eh=''; for (var e=0;e<ETFS.length;e++) eh+=mkRow(ETFS[e]); eb.innerHTML=eh; }
     }
 
     function updateSavings() {
@@ -666,7 +583,6 @@ Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio 
       var monthly = Number(document.getElementById('r-monthly').value);
       var rate = Number(document.getElementById('r-rate').value);
       var start = Number(document.getElementById('r-start').value);
-
       document.getElementById('d-target').textContent = target.toLocaleString();
       document.getElementById('d-monthly').textContent = monthly.toLocaleString();
       document.getElementById('d-rate').textContent = rate;
@@ -675,235 +591,146 @@ Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio 
 
     function calcSavings() {
       updateSavings();
-
       var goalName = document.getElementById('g-name').value.trim() || 'Savings Goal';
       var target = Number(document.getElementById('r-target').value);
       var monthly = Number(document.getElementById('r-monthly').value);
       var annualRate = Number(document.getElementById('r-rate').value);
       var start = Number(document.getElementById('r-start').value);
-
       var monthlyRate = annualRate / 100 / 12;
-      var balance = start;
-      var months = 0;
-      var maxMonths = 1200;
-
-      while (balance < target && months < maxMonths) {
-        balance = balance * (1 + monthlyRate) + monthly;
-        months++;
-      }
-
-      var years = Math.floor(months / 12);
-      var remMonths = months % 12;
+      var balance = start; var months = 0; var maxMonths = 1200;
+      while (balance < target && months < maxMonths) { balance = balance * (1 + monthlyRate) + monthly; months++; }
+      var years = Math.floor(months / 12); var remMonths = months % 12;
       var contributed = start + (monthly * months);
       var interestEarned = Math.max(0, balance - contributed);
-
-      var timelineText = years > 0 ? years + ' years, ' + remMonths + ' months' : remMonths + ' months';
-
+      var tl = years > 0 ? years + ' years, ' + remMonths + ' months' : remMonths + ' months';
       document.getElementById('sav-result').innerHTML =
-        '<div class="card">' +
-          '<div class="sec-title" style="margin-bottom:10px">' + escapeHtml(goalName) + ' Projection</div>' +
-          '<div class="res-card">' +
-            '<div class="res-row"><div class="res-lbl">Goal target</div><div class="res-val">' + formatCurrency(target) + '</div></div>' +
-            '<div class="res-row"><div class="res-lbl">Estimated timeline</div><div class="res-val">' + escapeHtml(timelineText) + '</div></div>' +
-            '<div class="res-row"><div class="res-lbl">Ending balance</div><div class="res-val">' + formatCurrency(balance) + '</div></div>' +
-            '<div class="res-row"><div class="res-lbl">Your contributions</div><div class="res-val">' + formatCurrency(contributed) + '</div></div>' +
-            '<div class="res-row"><div class="res-lbl">Growth earned</div><div class="res-val">' + formatCurrency(interestEarned) + '</div></div>' +
-          '</div>' +
-          '<div class="orion-tip"><strong>Orion note:</strong> At ' + annualRate + '% annual growth with ' + formatCurrency(monthly) + ' added monthly, this plan reaches your target in approximately <strong>' + escapeHtml(timelineText) + '</strong>.</div>' +
-        '</div>';
+        '<div class="card"><div class="sec-title" style="margin-bottom:10px">' + esc(goalName) + ' Projection</div>' +
+        '<div class="res-card">' +
+        '<div class="res-row"><div class="res-lbl">Goal target</div><div class="res-val">' + fmt(target) + '</div></div>' +
+        '<div class="res-row"><div class="res-lbl">Estimated timeline</div><div class="res-val">' + esc(tl) + '</div></div>' +
+        '<div class="res-row"><div class="res-lbl">Ending balance</div><div class="res-val">' + fmt(balance) + '</div></div>' +
+        '<div class="res-row"><div class="res-lbl">Your contributions</div><div class="res-val">' + fmt(contributed) + '</div></div>' +
+        '<div class="res-row"><div class="res-lbl">Growth earned</div><div class="res-val">' + fmt(interestEarned) + '</div></div>' +
+        '</div><div class="orion-tip"><strong>Orion note:</strong> At ' + annualRate + '% annual growth with ' + fmt(monthly) + ' added monthly, this plan reaches your target in approximately <strong>' + esc(tl) + '</strong>.</div></div>';
     }
 
     function setRisk(level) {
       currentRisk = level;
-
-      var all = ['conservative', 'moderate', 'aggressive'];
-      for (var i = 0; i < all.length; i++) {
-        var el = document.getElementById('rb-' + all[i]);
-        if (el) el.classList.remove('sel');
+      ['conservative','moderate','aggressive'].forEach(function(l) {
+        var el = document.getElementById('rb-' + l); if (el) el.classList.remove('sel');
+      });
+      var sel = document.getElementById('rb-' + level); if (sel) sel.classList.add('sel');
+      var data = STRATS[level]; if (!data) return;
+      var bar='', legend='';
+      for (var j=0;j<data.alloc.length;j++) {
+        bar += '<div class="alloc-seg" style="width:'+data.alloc[j].p+'%;background:'+data.alloc[j].c+'"></div>';
+        legend += '<div class="leg-row"><span class="leg-dot" style="background:'+data.alloc[j].c+'"></span><span>'+esc(data.alloc[j].l)+' — <strong>'+data.alloc[j].p+'%</strong></span></div>';
       }
-
-      var selected = document.getElementById('rb-' + level);
-      if (selected) selected.classList.add('sel');
-
-      var data = STRATS[level];
-      if (!data) return;
-
-      var bar = '';
-      var legend = '';
-      for (var j = 0; j < data.alloc.length; j++) {
-        bar += '<div class="alloc-seg" style="width:' + data.alloc[j].p + '%;background:' + data.alloc[j].c + '"></div>';
-        legend += '<div class="leg-row"><span class="leg-dot" style="background:' + data.alloc[j].c + '"></span><span>' + escapeHtml(data.alloc[j].l) + ' — <strong>' + data.alloc[j].p + '%</strong></span></div>';
-      }
-
       var acts = '';
-      for (var a = 0; a < data.acts.length; a++) {
-        acts += '<div class="act-item"><span class="act-num">' + (a + 1) + '.</span>' + escapeHtml(data.acts[a]) + '</div>';
-      }
-
+      for (var a=0;a<data.acts.length;a++) acts += '<div class="act-item"><span class="act-num">'+(a+1)+'.</span>'+esc(data.acts[a])+'</div>';
       document.getElementById('strat-out').innerHTML =
-        '<div class="card">' +
-          '<div class="sec-title" style="margin-bottom:10px">Suggested Allocation</div>' +
-          '<div class="exp-row">' +
-            '<div><strong style="color:var(--amber)">Expected Return:</strong> ' + escapeHtml(data.exp) + '</div>' +
-            '<div><strong style="color:var(--amber)">Estimated Max Drawdown:</strong> ' + escapeHtml(data.dd) + '</div>' +
-          '</div>' +
-          '<div class="alloc-bar">' + bar + '</div>' +
-          '<div class="alloc-legend">' + legend + '</div>' +
-          '<div class="sec-title" style="margin:18px 0 10px">Action Plan</div>' +
-          '<div class="act-list">' + acts + '</div>' +
-        '</div>';
+        '<div class="card"><div class="sec-title" style="margin-bottom:10px">Suggested Allocation</div>' +
+        '<div class="exp-row"><div><strong style="color:var(--amber)">Expected Return:</strong> '+esc(data.exp)+'</div><div><strong style="color:var(--amber)">Estimated Max Drawdown:</strong> '+esc(data.dd)+'</div></div>' +
+        '<div class="alloc-bar">'+bar+'</div><div class="alloc-legend">'+legend+'</div>' +
+        '<div class="sec-title" style="margin:18px 0 10px">Action Plan</div><div class="act-list">'+acts+'</div></div>';
     }
 
-    function autoResize(el) {
-      el.style.height = 'auto';
-      el.style.height = Math.min(el.scrollHeight, 110) + 'px';
-    }
-
-    function handleChatKey(event) {
-      if (event.key === 'Enter' && !event.shiftKey) {
-        event.preventDefault();
-        submitChat();
-      }
-    }
+    function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 110) + 'px'; }
 
     function appendUserMessage(text) {
       var area = document.getElementById('chat-area');
-      var wrap = document.createElement('div');
-      wrap.className = 'msg user';
-      wrap.innerHTML = '<div class="bub">' + escapeHtml(text) + '</div>';
-      area.appendChild(wrap);
-      area.scrollTop = area.scrollHeight;
+      var w = document.createElement('div'); w.className = 'msg user';
+      w.innerHTML = '<div class="bub">' + esc(text) + '</div>';
+      area.appendChild(w); area.scrollTop = area.scrollHeight;
     }
 
     function appendOrionMessage(html) {
       var area = document.getElementById('chat-area');
-      var wrap = document.createElement('div');
-      wrap.className = 'msg orion';
-      wrap.innerHTML = '<div class="av">O</div><div class="bub">' + html + '</div>';
-      area.appendChild(wrap);
-      area.scrollTop = area.scrollHeight;
+      var w = document.createElement('div'); w.className = 'msg orion';
+      w.innerHTML = '<div class="av">O</div><div class="bub">' + html + '</div>';
+      area.appendChild(w); area.scrollTop = area.scrollHeight;
     }
 
     function showTyping() {
       var area = document.getElementById('chat-area');
-      var wrap = document.createElement('div');
-      wrap.className = 'msg orion';
-      wrap.id = 'typing-msg';
-      wrap.innerHTML = '<div class="av">O</div><div class="bub"><span class="typing-dots"><span></span><span></span><span></span></span></div>';
-      area.appendChild(wrap);
-      area.scrollTop = area.scrollHeight;
+      var w = document.createElement('div'); w.className = 'msg orion'; w.id = 'typing-msg';
+      w.innerHTML = '<div class="av">O</div><div class="bub"><span class="typing-dots"><span></span><span></span><span></span></span></div>';
+      area.appendChild(w); area.scrollTop = area.scrollHeight;
     }
 
-    function hideTyping() {
-      var t = document.getElementById('typing-msg');
-      if (t) t.remove();
-    }
+    function hideTyping() { var t = document.getElementById('typing-msg'); if (t) t.remove(); }
 
-    function extractNumbers(text) {
-      var matches = text.match(/-?\d+(\.\d+)?/g);
-      return matches ? matches.map(Number) : [];
-    }
+    function extractNumbers(text) { var m = text.match(/-?\d+(\.\d+)?/g); return m ? m.map(Number) : []; }
 
     function buildResponse(prompt) {
       var q = prompt.toLowerCase();
       var nums = extractNumbers(prompt);
 
       if (q.includes('dti')) {
-        var annualIncome = nums[0] || 0;
-        var monthlyDebt = nums[1] || 0;
-        var grossMonthly = annualIncome / 12;
-        var dti = grossMonthly > 0 ? (monthlyDebt / grossMonthly) * 100 : 0;
+        var income = nums[0]||0; var debt = nums[1]||0;
+        var monthly = income / 12; var dti = monthly > 0 ? (debt / monthly) * 100 : 0;
         var rating = dti < 20 ? 'excellent' : dti < 36 ? 'healthy' : dti < 43 ? 'borderline' : 'high-risk';
-
         return '<div class="chip-row"><span class="chip">DTI</span><span class="chip">Lending</span></div>' +
-          'Here is the calculation:\n\n' +
-          '1. Gross monthly income = ' + formatCurrency(annualIncome) + ' ÷ 12 = ' + formatCurrency(grossMonthly) + '\n' +
-          '2. Monthly debt payments = ' + formatCurrency(monthlyDebt) + '\n' +
-          '3. DTI = ' + formatCurrency(monthlyDebt) + ' ÷ ' + formatCurrency(grossMonthly) + ' = ' + dti.toFixed(1) + '%\n\n' +
+          'Here is the calculation:\n\n1. Gross monthly income = ' + fmt(income) + ' ÷ 12 = ' + fmt(monthly) +
+          '\n2. Monthly debt payments = ' + fmt(debt) +
+          '\n3. DTI = ' + fmt(debt) + ' ÷ ' + fmt(monthly) + ' = ' + dti.toFixed(1) + '%\n\n' +
           'Your estimated DTI is <strong>' + dti.toFixed(1) + '%</strong>, which is generally considered <strong>' + rating + '</strong>.';
       }
 
       if (q.includes('compound')) {
-        var principal = nums[0] || 0;
-        var rate = nums[1] || 0;
-        var years = nums[2] || 10;
-        var future = principal * Math.pow(1 + (rate / 100), years);
+        var p = nums[0]||0; var r = nums[1]||0; var y = nums[2]||10;
+        var fv = p * Math.pow(1 + (r / 100), y);
         return '<div class="chip-row"><span class="chip">Compound Interest</span></div>' +
-          'Using annual compounding:\n\n' +
-          '1. Principal = ' + formatCurrency(principal) + '\n' +
-          '2. Rate = ' + rate + '%\n' +
-          '3. Time = ' + years + ' years\n' +
-          '4. Future value = P × (1 + r)^t\n' +
-          '5. Future value = ' + formatCurrency(principal) + ' × (1 + ' + (rate/100).toFixed(2) + ')^' + years + '\n\n' +
-          'Estimated future value: <strong>' + formatCurrency(future) + '</strong>.';
+          'Using annual compounding:\n\n1. Principal = ' + fmt(p) + '\n2. Rate = ' + r + '%\n3. Time = ' + y + ' years\n' +
+          '4. Formula: P × (1 + r)^t\n5. ' + fmt(p) + ' × (1 + ' + (r/100).toFixed(2) + ')^' + y + '\n\n' +
+          'Estimated future value: <strong>' + fmt(fv) + '</strong>.';
       }
 
       if (q.includes('emergency fund')) {
-        var spend = nums[0] || 0;
-        var three = spend * 3;
-        var six = spend * 6;
+        var spend = nums[0]||0;
         return '<div class="chip-row"><span class="chip">Emergency Fund</span></div>' +
-          'A simple emergency fund range is based on 3 to 6 months of core expenses.\n\n' +
-          '1. Monthly spending = ' + formatCurrency(spend) + '\n' +
-          '2. 3-month reserve = ' + formatCurrency(three) + '\n' +
-          '3. 6-month reserve = ' + formatCurrency(six) + '\n\n' +
-          'A strong target range for you is <strong>' + formatCurrency(three) + ' to ' + formatCurrency(six) + '</strong>.';
+          'Based on 3–6 months of core expenses:\n\n1. Monthly spending = ' + fmt(spend) +
+          '\n2. 3-month reserve = ' + fmt(spend * 3) + '\n3. 6-month reserve = ' + fmt(spend * 6) + '\n\n' +
+          'Your target range is <strong>' + fmt(spend * 3) + ' to ' + fmt(spend * 6) + '</strong>.';
       }
 
       if (q.includes('budget')) {
-        var takeHome = nums[0] || 0;
-        var needs = takeHome * 0.50;
-        var wants = takeHome * 0.30;
-        var savings = takeHome * 0.20;
+        var th = nums[0]||0;
         return '<div class="chip-row"><span class="chip">Budgeting</span><span class="chip">50/30/20</span></div>' +
-          'Using the 50/30/20 budgeting framework:\n\n' +
-          '1. Monthly take-home pay = ' + formatCurrency(takeHome) + '\n' +
-          '2. Needs (50%) = ' + formatCurrency(needs) + '\n' +
-          '3. Wants (30%) = ' + formatCurrency(wants) + '\n' +
-          '4. Savings / debt payoff (20%) = ' + formatCurrency(savings) + '\n\n' +
-          'This gives you a clean baseline budget to start refining.';
+          'Using the 50/30/20 framework:\n\n1. Monthly take-home = ' + fmt(th) +
+          '\n2. Needs (50%) = ' + fmt(th * 0.50) + '\n3. Wants (30%) = ' + fmt(th * 0.30) +
+          '\n4. Savings / debt payoff (20%) = ' + fmt(th * 0.20) + '\n\nThis gives you a clean baseline to start refining.';
       }
 
       if (q.includes('fire')) {
-        var monthlySave = nums[0] || 0;
-        var income = nums[1] || 0;
-        var annualSpend = income * 0.7;
-        var fireNumber = annualSpend * 25;
-        var annualContribution = monthlySave * 12;
-        var estYears = annualContribution > 0 ? fireNumber / annualContribution : 0;
+        var ms = nums[0]||0; var inc = nums[1]||0;
+        var annSpend = inc * 0.7; var fireNum = annSpend * 25; var annC = ms * 12;
+        var estY = annC > 0 ? fireNum / annC : 0;
         return '<div class="chip-row"><span class="chip">FIRE</span><span class="chip">Long-Term Planning</span></div>' +
-          'Here is a rough FIRE estimate using the 4% rule:\n\n' +
-          '1. Approx annual spending estimate = 70% of income = ' + formatCurrency(annualSpend) + '\n' +
-          '2. FIRE number = annual spending × 25 = ' + formatCurrency(fireNumber) + '\n' +
-          '3. Annual investing contribution = ' + formatCurrency(annualContribution) + '\n' +
-          '4. Simple no-growth pay-in timeline = ' + estYears.toFixed(1) + ' years\n\n' +
-          'With investment growth, the real timeline can be meaningfully shorter. Your rough FIRE target is <strong>' + formatCurrency(fireNumber) + '</strong>.';
+          'Using the 4% rule:\n\n1. Estimated annual spending (70% of income) = ' + fmt(annSpend) +
+          '\n2. FIRE number = annual spending × 25 = ' + fmt(fireNum) +
+          '\n3. Annual investing = ' + fmt(annC) +
+          '\n4. Simple no-growth timeline = ' + estY.toFixed(1) + ' years\n\n' +
+          'With investment growth, the real timeline is meaningfully shorter. Your FIRE target is <strong>' + fmt(fireNum) + '</strong>.';
       }
 
-      if (q.includes('portfolio allocation') || q.includes('allocation')) {
-        var age = nums[0] || 30;
-        var equity = Math.max(40, Math.min(95, 110 - age));
-        var bonds = 100 - equity;
+      if (q.includes('allocation') || q.includes('portfolio')) {
+        var age = nums[0]||30;
+        var eq = Math.max(40, Math.min(95, 110 - age)); var bonds = 100 - eq;
         return '<div class="chip-row"><span class="chip">Allocation</span><span class="chip">Age-Based</span></div>' +
-          'A simple age-based framework:\n\n' +
-          '1. Equity allocation = 110 - age\n' +
-          '2. 110 - ' + age + ' = ' + equity + '% stocks\n' +
-          '3. Remaining allocation = ' + bonds + '% bonds/cash\n\n' +
-          'A simple starting point would be <strong>' + equity + '% equities</strong> and <strong>' + bonds + '% defensive assets</strong>.';
+          'Simple age-based framework:\n\n1. Equity allocation = 110 - age\n2. 110 - ' + age + ' = ' + eq + '% stocks\n' +
+          '3. Remaining = ' + bonds + '% bonds/cash\n\n' +
+          'A simple starting point is <strong>' + eq + '% equities</strong> and <strong>' + bonds + '% defensive assets</strong>.';
       }
 
       if (q.includes('debt') && q.includes('invest')) {
-        var loan = nums[0] || 0;
-        var loanRate = nums[1] || 0;
-        var investMonthly = nums[2] || 0;
-        var annualInterest = loan * (loanRate / 100);
+        var loan = nums[0]||0; var lRate = nums[1]||0; var inv = nums[2]||0;
+        var annInt = loan * (lRate / 100);
         return '<div class="chip-row"><span class="chip">Debt vs Investing</span></div>' +
-          'This comes down to comparing your guaranteed debt cost to expected market return.\n\n' +
-          '1. Loan balance = ' + formatCurrency(loan) + '\n' +
-          '2. Loan rate = ' + loanRate + '%\n' +
-          '3. Approx annual interest cost = ' + formatCurrency(annualInterest) + '\n' +
-          '4. Monthly amount available = ' + formatCurrency(investMonthly) + '\n\n' +
-          'A debt rate of <strong>' + loanRate + '%</strong> is a guaranteed drag. If your rate is above about 6-7%, many people prioritize payoff before aggressive investing unless they are still getting a 401(k) match.';
+          'Comparing guaranteed debt cost to expected market return:\n\n1. Loan balance = ' + fmt(loan) +
+          '\n2. Loan rate = ' + lRate + '%\n3. Annual interest cost = ' + fmt(annInt) +
+          '\n4. Monthly available = ' + fmt(inv) + '\n\n' +
+          'A debt rate of <strong>' + lRate + '%</strong> is a guaranteed drag. Above ~6-7%, most people prioritize payoff before aggressive investing — unless still getting a 401(k) match.';
       }
 
       return '<div class="chip-row"><span class="chip">General Financial Guidance</span></div>' +
@@ -913,57 +740,27 @@ Try asking about: DTI ratio, debt payoff vs investing, FIRE timeline, portfolio 
 
     function fillAndSubmit(text) {
       goTo('chat');
-      var input = document.getElementById('chat-input');
-      input.value = text;
-      autoResize(input);
-      submitChat();
+      var inp = document.getElementById('chat-input');
+      inp.value = text; autoResize(inp); submitChat();
     }
 
     function submitChat() {
-      var input = document.getElementById('chat-input');
+      var inp = document.getElementById('chat-input');
       var btn = document.getElementById('submit-btn');
-      var text = input.value.trim();
-      if (!text) return;
-
-      appendUserMessage(text);
-      input.value = '';
-      autoResize(input);
-      btn.disabled = true;
-
+      var text = inp.value.trim(); if (!text) return;
+      appendUserMessage(text); inp.value = ''; autoResize(inp); btn.disabled = true;
       showTyping();
-
-      setTimeout(function () {
-        hideTyping();
-        appendOrionMessage(buildResponse(text));
-        btn.disabled = false;
-      }, 700);
+      setTimeout(function() { hideTyping(); appendOrionMessage(buildResponse(text)); btn.disabled = false; }, 700);
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
-      var navButtons = document.querySelectorAll('.nav-btn');
-      for (var i = 0; i < navButtons.length; i++) {
-        navButtons[i].addEventListener('click', function () {
-          var page = this.getAttribute('data-p');
-          goTo(page);
-        });
-      }
-
-      document.getElementById('modal-overlay').addEventListener('click', function (e) {
-        if (e.target.id === 'modal-overlay') closeModal();
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.nav-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() { goTo(this.getAttribute('data-p')); });
       });
-
-      var chatInput = document.getElementById('chat-input');
-      var submitBtn = document.getElementById('submit-btn');
-
-      chatInput.addEventListener('keydown', handleChatKey);
-      chatInput.addEventListener('input', function () { autoResize(this); });
-      submitBtn.addEventListener('click', submitChat);
-
-      document.getElementById('r-target').addEventListener('input', updateSavings);
-      document.getElementById('r-monthly').addEventListener('input', updateSavings);
-      document.getElementById('r-rate').addEventListener('input', updateSavings);
-      document.getElementById('r-start').addEventListener('input', updateSavings);
-
+      document.getElementById('chat-input').addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submitChat(); }
+      });
+      document.getElementById('chat-input').addEventListener('input', function() { autoResize(this); });
       updateSavings();
       setRisk('conservative');
       renderLibrary();
