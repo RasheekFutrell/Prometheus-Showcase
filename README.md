@@ -1,194 +1,172 @@
-<p align="center">
-  <img src="./docs/orion-logo.png" alt="Prometheus AI Logo" width="120" />
-</p>
+# Prometheus AI
 
-<h1 align="center">🔥 Prometheus AI</h1>
-<p align="center"><strong>⚡ Financial Intelligence for Humanity</strong></p>
+### Financial Intelligence for Humanity
 
-<p align="center">
-  <a href="https://rasheekfutrell.github.io/Prometheus-Showcase/">
-    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-View%20Prometheus-f59e0b?style=for-the-badge&logo=rocket" />
-  </a>
-  <img src="https://img.shields.io/badge/Status-Private%20Beta-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Build-AI%20Financial%20Platform-blue?style=for-the-badge" />
-</p>
+**An AI-powered financial strategist built to replace guesswork with precision.**
 
-<p align="center">
-  Prometheus AI is an intelligent financial platform powered by <strong>Orion</strong> —  
-  a personalized AI financial strategist built to help people move with clarity, strategy, and confidence.
-</p>
+[🚀 Live Demo](https://rasheekfutrell.github.io/Prometheus-Showcase/) • [📩 Join Beta](#) • [📈 Roadmap](#roadmap)
 
 ---
 
-## 🧠 The Vision
+## 🧠 Overview
 
-> People are drowning in financial advice… but starving for clarity.
+**Prometheus AI** is a next-generation financial intelligence platform designed to function as a **real-time personal CFO**.
 
-Prometheus AI is designed to close that gap.
+At its core is **Orion**, an explainable AI system that transforms raw financial inputs into structured, actionable decisions — not vague advice.
 
-Instead of tracking numbers, Prometheus helps users:
-
-* Understand their financial position
-* Make better decisions
-* Build long-term wealth
-
-At its core, this platform is being built to function as a:
-
-> 💡 **Real-Time AI Financial Strategist (CFO for everyday people)**
+> Most people don’t fail financially because they’re lazy.
+> They fail because they lack clarity.
+> Prometheus exists to solve that.
 
 ---
 
-## 🤖 Meet Orion
+## ⚡ Core Features
 
-Orion is the intelligence engine behind Prometheus.
+### 🤖 Orion AI (Financial Brain)
 
-It is designed to be:
+* Step-by-step financial reasoning (not black-box answers)
+* Personalized insights based on user inputs
+* Decision-first outputs (what to do next, not just information)
 
-✨ Explainable — shows step-by-step reasoning
-✨ Personalized — built around the user
-✨ Strategic — focused on long-term wealth
-✨ Supportive — human-centered guidance
-
-Orion doesn’t just answer questions — it **thinks through them with you**.
-
----
-
-## ⚙️ Core Features
-
-### 💬 Orion Chat
-
-Ask financial questions and get **step-by-step breakdowns** using real numbers.
-
-### 🗺️ Money Map *(Vision Feature)*
+### 🗺️ Money Map
 
 * Current financial position
 * Future projections
-* Improvement insights
+* Optimization recommendations
+* Real-time financial trajectory
 
-### 🎯 Savings Planner
+### 📊 Framework Library
 
-Model real-life goals:
+* Built on principles from:
 
-* Emergency funds
-* Down payments
-* Wealth targets
+  * Warren Buffett
+  * Ray Dalio
+  * Benjamin Graham
+  * Charlie Munger
+* Structured into decision systems, not theory
 
-### 📊 Strategy Engine
+### 📈 Market Intelligence
 
-Dynamic portfolio planning based on:
+* Macro indicators (inflation, rates, unemployment)
+* Stock + ETF tracking
+* Designed for future real-time API integration
 
-* Risk tolerance
-* Time horizon
-* Financial goals
+### 🎯 Savings & Strategy Engine
 
-### 📚 Framework Library
-
-Learn from top financial strategies:
-
-* Value investing
-* Index investing
-* Growth strategies
-* Macro strategies
-
-### 📈 Market Dashboard
-
-Track:
-
-* Stocks
-* ETFs
-* Macro indicators
+* Goal-based planning
+* Portfolio allocation modeling
+* Risk-adjusted investment strategies
 
 ---
 
-## 💡 Why This Matters
+## 🧩 Tech Stack
 
-Most people aren’t failing financially…
-
-They’re just **making decisions without clarity**.
-
-Prometheus is built to help users:
-
-* Think strategically
-* Build discipline
-* Make confident financial moves
-* Create long-term wealth
+```bash
+Frontend: React + Vite
+Backend: Express.js
+Database: PostgreSQL (Drizzle ORM)
+AI Layer: Orion Financial Reasoning Engine
+Hosting: Replit + GitHub Pages
+```
 
 ---
 
-## 🚧 Current Status
+## 🏗️ Architecture Vision
 
-🟠 **Private Beta — Actively Developing**
+Prometheus is being built as a **modular financial operating system**:
 
-This showcase demonstrates:
+* 🧠 AI Decision Engine (Orion)
+* 💾 Financial Memory Layer (user behavior + data)
+* 📊 Strategy Engine (investment frameworks)
+* 🔗 API Integrations (banks, markets, payroll)
 
-* Product vision
-* UI/UX direction
-* Orion interaction model
-* Financial planning tools
+Future integrations:
 
-### 🔜 Next Phase
-
-* User authentication system
-* Automated onboarding + email system
-* Live financial API integrations
-* Orion memory + personalization
-* Advanced decision engine
+* Siri / Alexa compatibility
+* Smart device financial alerts
+* Fully autonomous financial optimization
 
 ---
 
-## 🛠️ Tech Stack
+## 🚀 Live Demo
 
-🖥️ Frontend: HTML · CSS · JavaScript · React
-⚙️ Backend: Express
-🗄️ Database: PostgreSQL
-🧠 ORM: Drizzle
-🚀 Dev + Hosting: Replit · GitHub Pages
-🤖 AI Direction: Orion Financial Intelligence Engine
+👉 https://rasheekfutrell.github.io/Prometheus-Showcase/
+
+> ⚠️ This is a **public beta prototype**
+> Core logic and AI systems are still being expanded.
 
 ---
 
-## 🧭 Roadmap
+## 🛠️ Roadmap
 
-* ✅ Build Prometheus interface
-* ✅ Define Orion personality + system
-* ✅ Launch public showcase
-* 🔄 Expand Orion reasoning engine
-* 🔄 Add user accounts + onboarding
-* 🔄 Integrate live financial data
-* 🔜 Build AI financial memory system
-* 🔜 Launch full beta with real users
+### Phase 1 — Foundation (Current)
+
+* UI/UX prototype complete
+* Orion logic v1 deployed
+* Framework database integrated
+
+### Phase 2 — Intelligence Expansion
+
+* Real-time financial calculations engine
+* Enhanced AI reasoning + memory
+* User personalization layer
+
+### Phase 3 — Data Integration
+
+* Bank account connections (Plaid)
+* Live market data APIs
+* Automated financial tracking
+
+### Phase 4 — Scale
+
+* Mobile app
+* API ecosystem
+* B2B financial intelligence tools
 
 ---
 
-## 👤 Founder
-
-**Rasheek Futrell**
-
-Building at the intersection of:
-
-* Finance
-* Artificial Intelligence
-* Real-world decision-making
-
-Mission-driven to help people move from:
-
-> ❌ Financial confusion → ✅ Financial control
-
----
-
-## 🔥 The Mission
+## 💡 Vision
 
 Prometheus is not just an app.
 
-It is the beginning of a new category:
+It is building the foundation for:
 
-> 🧠 **AI-Powered Financial Intelligence Systems**
+> **A world where every human has access to elite-level financial intelligence.**
 
-**Prometheus provides the platform.
-Orion provides the intelligence.**
+No gatekeeping.
+No confusion.
+Just clarity, strategy, and execution.
 
 ---
 
-<p align="center">
-  ⚡ Built for the future of money, intelligence, and human potential.
-</p>
+## 🤝 Beta Testing
+
+We are currently in **private beta**.
+
+If you're interested in:
+
+* Testing the platform
+* Providing feedback
+* Early access opportunities
+
+👉 Reach out directly or connect on LinkedIn
+
+---
+
+## 📬 Contact
+
+**Rasheek Futrell**
+Founder — Prometheus AI
+
+* LinkedIn: https://www.linkedin.com/in/rasheek-futrell-9212971b6?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app
+* Email: [Rasheekfutrell@yahoo.com](mailto:Rasheekfutrell@yahoo.com)
+
+---
+
+## ⚠️ Disclaimer
+
+Prometheus AI provides financial insights for educational purposes only and does not constitute financial advice.
+
+---
+
+**Built with purpose. Designed for impact.**
