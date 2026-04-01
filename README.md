@@ -1,3 +1,6 @@
+<div align="center">
+  <img src="./images/prometheus-logo.png" width="110"/>
+
 # Prometheus AI
 
 ### Financial Intelligence for Humanity
@@ -5,6 +8,8 @@
 **An AI-powered financial strategist built to replace guesswork with precision.**
 
 [🚀 Live Demo](https://rasheekfutrell.github.io/Prometheus-Showcase/) • [📩 Join Beta](#) • [📈 Roadmap](#roadmap)
+
+</div>
 
 ---
 
@@ -158,7 +163,7 @@ If you're interested in:
 **Rasheek Futrell**
 Founder — Prometheus AI
 
-* LinkedIn: https://www.linkedin.com/in/rasheek-futrell-9212971b6?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app
+* LinkedIn: https://www.linkedin.com/in/rasheek-futrell-9212971b6
 * Email: [Rasheekfutrell@yahoo.com](mailto:Rasheekfutrell@yahoo.com)
 
 ---
